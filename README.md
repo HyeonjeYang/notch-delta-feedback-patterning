@@ -117,6 +117,11 @@ Each `figures/plot_fig*.py` reads only the small CSV/NPZ files already
 included in `figures/data/` — no simulation or parameter search is
 rerun. Figures are written to `figures/main/`.
 
+```bash
+python control/explain_geff.py     # optional: recomputes figures/data/geff_comparison.csv
+                                    # from the included raw global sample (no new search)
+```
+
 To rerun a piece of the deterministic analysis itself (fast; no search):
 
 ```python
@@ -152,7 +157,9 @@ points (`lam_N = 2.0`, `5.623`). It intentionally excludes the exploratory
 history that produced it — in particular, an earlier `dt=0.02`
 Euler-Maruyama result at a different (`k_cis`-only) baseline was found to
 be a numerical integration artifact and is **not** reproduced here; nor is
-any stochastic-simulation result, which remains future work. The full
-4000-point global parameter search that identified the dominant drivers is
-also not included (large raw output); its already-reduced results
-(`figures/data/*.csv`) are.
+any stochastic-simulation result, which remains future work. The frozen
+4000-point global parameter search that identified the dominant drivers
+(`figures/data/global_parameter_samples.csv`) is included in full; its
+root-finding step itself is not rerun here (no new search), but
+`control/explain_geff.py` recomputes the `G_exact`-vs-`G_eff` comparison
+from it and reproduces `figures/data/geff_comparison.csv` byte-for-byte.
