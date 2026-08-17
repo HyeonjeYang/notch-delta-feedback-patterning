@@ -65,8 +65,10 @@ G_eff = J_D,S * J_A,D * J_S,A / (|J_D,D| * |J_A,A| * |J_S,S|)
 (`control/loop_gain.py::G_eff`) is the dominant-path (`S->D->A->S`)
 approximation of `G_exact`: it drops the N-mediated coupling terms and
 approximates `[A_mu^{-1}]_{A,D}` by `J_AD(mu)/(J_DD*J_AA)`. Over the frozen
-global parameter sample (n=3267 valid points, not included in this
-repository -- see `README.md` "Reproducibility note"):
+global parameter sample (n=3267 valid points,
+`figures/data/global_parameter_samples.csv`, included in full --
+`control/explain_geff.py` reproduces the comparison below byte-for-byte
+from this file, no new search):
 
 | criterion | classification accuracy |
 |---|---|

@@ -6,13 +6,13 @@ unchanged) from the source repository's
 G_eff is the dominant-path (S->D->A->S) approximation of the exact
 G_exact(mu) = L_mu(0): it drops the N-mediated coupling terms and
 approximates [A_mu^{-1}]_{A,D} by J_AD(mu)/(J_DD*J_AA). Over the frozen
-patternability-map global sample (n=3267 valid points), G_exact(-3)>1
-classifies true spatial instability with 99.79% accuracy vs. 93.88% for
-G_eff at its best threshold -- see docs/CONTROL_THEORY_DERIVATION.md
-section 8. Reproducing that full comparison requires the large raw global
-sample, which is intentionally not included in this repository (see
-README.md "Reproducibility note"); the functions below are included so the
-two gain quantities can be recomputed for any new fixed point.
+patternability-map global sample (n=3267 valid points,
+figures/data/global_parameter_samples.csv, included in full),
+G_exact(-3)>1 classifies true spatial instability with 99.79% accuracy vs.
+93.88% for G_eff at its best threshold -- see docs/CONTROL_THEORY.md and
+control/explain_geff.py, which reproduces figures/data/geff_comparison.csv
+from that raw sample byte-for-byte (verified via `git diff`, no new
+search).
 """
 
 from __future__ import annotations
