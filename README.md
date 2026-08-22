@@ -156,8 +156,18 @@ theory, geometry, and nonlinear confirmation at two validated parameter
 points (`lam_N = 2.0`, `5.623`). It intentionally excludes the exploratory
 history that produced it — in particular, an earlier `dt=0.02`
 Euler-Maruyama result at a different (`k_cis`-only) baseline was found to
-be a numerical integration artifact and is **not** reproduced here; nor is
-any stochastic-simulation result, which remains future work. The frozen
+be a numerical integration artifact and is **not** reproduced here. One
+preliminary stochastic check has since been added (`stochastic_check/`,
+scripts only — results live in the main development repository per
+`stochastic_check/README.md`): at validated point P2 (`lam_N=2.0`),
+additive white noise on Delta shortens formation time (`t50` -45% to -66%
+across `sigma=1e-4..1e-2`) without changing final pattern amplitude, but
+collapses final three-sublattice mode purity from 1.0 to ~0.13-0.22
+(verdict S2); a deterministic random-IC control found ~60% of that purity
+loss already occurs with zero noise, with ongoing noise contributing a
+further, significant ~40% of the acceleration (verdict R3). This is one
+check at one parameter point, not a systematic noise-timing study across
+the bifurcation, which remains future work. The frozen
 4000-point global parameter search that identified the dominant drivers
 (`figures/data/global_parameter_samples.csv`) is included in full; its
 root-finding step itself is not rerun here (no new search), but
