@@ -8,9 +8,9 @@ parameter `lam_N` (baseline 1.0, P2 2.0, P3 5.623), all else at `p0`.
 
 | quantity | value |
 |---|---|
-| critical `lam_N` (mu=-3 leading pole crosses `Re(s)=0`) | 1.305008 |
-| `G_exact(-3)` at critical `lam_N` | 0.999936 |
-| `G_exact(+6)` at critical `lam_N` | -0.063368 |
+| critical `lam_N` (mu=-3 leading pole crosses `Re(s)=0`) | 1.304815343 |
+| `G_exact(-3)` at critical `lam_N` | 1.000000000000 |
+| `G_exact(+6)` at critical `lam_N` | -0.0628 |
 | `G_eff` at critical `lam_N` | ~3.84 |
 | max `Re(s)` for mu=6 across `lam_N in [0.5,6.5]` | -0.100000 (always stable) |
 | Schur vs. direct eigenvalue max coefficient diff (9 combinations) | 1.421e-13 |
@@ -31,6 +31,10 @@ parameter `lam_N` (baseline 1.0, P2 2.0, P3 5.623), all else at `p0`.
 | `G_eff` best-threshold classification accuracy | 93.88% (threshold 1.095) |
 | nonuniform-unstable fraction, 4000-point global sample | 30.3% (1212/4000) |
 | multistable branches found (entire source analysis) | 0 |
+
+The three critical-`lam_N` rows above come from direct `brentq` root-finding
+(bracket `[1.2, 1.4]`, `xtol=1e-13`), not grid interpolation; pole crossing
+and unity-gain agree to `4.7e-15` in `lam_N` -- see `scripts/verify_critical_point.py`.
 
 ## Solver convergence (current, validated)
 

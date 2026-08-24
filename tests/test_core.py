@@ -6,10 +6,10 @@ from __future__ import annotations
 
 import dataclasses
 
-import numpy as np
 import pytest
+from scipy.optimize import brentq
 
-from control.root_locus import find_critical_lam_N
+from control.root_locus import poles_at
 from control.schur_verification import verify as schur_verify
 from control.state_space import G_exact
 from geometry.graph_spectrum import graph_eigenvalues, verify_dispersion
@@ -68,11 +68,13 @@ def test_schur_complement_matches_direct_jacobian_eigenvalues():
 
 
 def test_critical_lam_n_and_unity_loop_gain():
-    lam_N_values = np.geomspace(0.5, 6.5, 61)
-    lam_crit = find_critical_lam_N(DOMINANT_PATTERN_MU, lam_N_values, P0)
-    assert lam_crit == pytest.approx(1.305, abs=0.05)
+    # Direct brentq root-finding (scripts/verify_critical_point.py), not the
+    # 121-point geomspace grid + linear interpolation used elsewhere.
+    mu = DOMINANT_PATTERN_MU
+    lam_crit = brentq(lambda lam_N: float(poles_at(mu, lam_N, P0)[0].real), 1.2, 1.4, xtol=1e-13)
+    assert lam_crit == pytest.approx(1.304815343, abs=1e-6)
 
     p = dataclasses.replace(P0, lam_N=lam_crit)
     fp = find_fixed_points(p)[0]
-    J_mu = jacobian_block(DOMINANT_PATTERN_MU, fp, p)
-    assert G_exact(J_mu) == pytest.approx(1.0, abs=0.01)
+    J_mu = jacobian_block(mu, fp, p)
+    assert G_exact(J_mu) == pytest.approx(1.0, abs=1e-9)

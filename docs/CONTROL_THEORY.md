@@ -39,20 +39,22 @@ mismatch 4.7e-14** -- machine precision.
 
 Tracking all four poles of `J_mu` across a `lam_N` sweep
 (`control/root_locus.py`): the `mu=-3` (dominant, three-sublattice) leading
-pole crosses `Re(s)=0` at **`lam_N ~= 1.305`**, while `mu=6` (uniform) stays
-stable (max `Re(s)=-0.1`) across the whole tested range `[0.5, 6.5]`.
+pole crosses `Re(s)=0` at **`lam_N = 1.304815343`** (direct `brentq`
+root-finding, `scripts/verify_critical_point.py`), while `mu=6` (uniform)
+stays stable (max `Re(s)=-0.1`) across the whole tested range `[0.5, 6.5]`.
 
 Define `G_exact(mu) = L_mu(0)` (`control/state_space.py::G_exact`). At the
 critical `lam_N`:
 
 ```
-G_exact(-3) = 0.999936   -- an exact unity-DC-loop-gain condition, to 0.007%
-G_exact(+6) = -0.063368  -- far from unity, consistent with uniform-mode stability
+G_exact(-3) = 1.000000000000  -- an exact unity-DC-loop-gain condition
+G_exact(+6) = -0.0628         -- far from unity, consistent with uniform-mode stability
 ```
 
 This precision was not built in; it is a direct consequence of the
-Schur-complement identity being exact algebra, checked against an
-independently-located pole crossing.
+Schur-complement identity being exact algebra: the pole crossing and the
+unity-gain crossing, located independently by `brentq`, agree to `4.7e-15`
+in `lam_N`.
 
 ## G_eff: a reduced approximation, explained
 
