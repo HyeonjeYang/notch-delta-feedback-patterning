@@ -79,9 +79,15 @@ def panel_D(ax):
         "Small-signal block preview:\n"
         r"$\dot z = A_\mu z + bS,\ \ \dot S = c^{\!\top}z + a_S S$"
     )
-    ax.text(0.02, 0.5, text, ha="left", va="center", fontsize=10.5, transform=ax.transAxes,
-           bbox=dict(fc="#F4F6F6", ec="#888", pad=8))
+    txt = ax.text(0.02, 0.5, text, ha="left", va="center", fontsize=10.5, transform=ax.transAxes,
+                 bbox=dict(fc="#F4F6F6", ec="#888", pad=8))
     ax.set_title("D. Governing equations (exact, model.equations)\n+ block preview", fontsize=10.5)
+    # Equation lines stay left-aligned relative to each other, but the block
+    # as a whole is re-centred under the "D" title (its width isn't known
+    # until after a render pass).
+    ax.figure.canvas.draw()
+    bbox_axes = txt.get_window_extent(renderer=ax.figure.canvas.get_renderer()).transformed(ax.transAxes.inverted())
+    txt.set_x(0.5 - (bbox_axes.x1 - bbox_axes.x0) / 2)
 
 
 def main():
