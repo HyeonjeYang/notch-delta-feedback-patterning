@@ -1,6 +1,6 @@
 # Geometry: six-neighbour contact lattice and mode selection
 
-Condensed from the source repository's `preprint_final_analysis/GEOMETRY_DERIVATION.md`.
+Geometry of the contact graph used throughout (see also `docs/THEORY.md`).
 
 ## Terminology
 
