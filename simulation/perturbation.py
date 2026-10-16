@@ -1,14 +1,20 @@
-"""Controlled small-amplitude perturbation along the dominant unstable
-eigenmode, used for the nonlinear validation runs (Figure 5). Copied
-(logic unchanged) from the source repository's
-``preprint_final_analysis/scripts/rerun_p2_snapshots.py`` and
-``patternability_map/scripts/phase6_nonlinear_validation.py``.
+"""Initial conditions and amplitude read-out for the growth-rate validation.
 
-Deliberately NOT a random/stochastic initial condition (task requirement
-throughout the source project): the perturbation direction is the exact
-dominant eigenvector of the mode-resolved Jacobian at mu=-3, scaled by a
-small relative amplitude, so the initial linear growth rate can be
-compared quantitatively to the predicted pole.
+The perturbation is a single spatial mode with an exact eigenvector
+direction:
+
+    x_i(0) = x* + eps * v * cos(phi_i),   phi_i = 2 pi (m r_i / R + n c_i / C)
+
+Here v is the real eigenvector of the leading eigenvalue of J_mu
+(mu = -3, (m, n) = (8, 16) on the 24 x 24 lattice). v is scaled as a whole by
+one scalar eps = rel_amp * D*/v_D, so the Delta component has relative
+amplitude rel_amp and the 4-species direction is exactly v. Linear dynamics then
+grow the K-mode amplitude as exp(lambda t) from t = 0, with no transient.
+
+The v1 analysis multiplied v componentwise by the equilibrium values
+(x* + rel_amp * diag(x*) v cos phi). That vector is not an eigenvector of J_mu
+and excites the other three poles of the block. ``v1_componentwise_state``
+reproduces that protocol for the comparison in the Supplementary figure only.
 """
 
 from __future__ import annotations
@@ -16,31 +22,42 @@ from __future__ import annotations
 import numpy as np
 
 from geometry.lattice import COLS, ROWS
-from model.jacobian import jacobian_block
-from model.params import NotchDeltaParams
-from stability.mode_scan import DOMINANT_PATTERN_MU
 
-MODE_M, MODE_N = 8, 16  # the (m,n) indices realizing mu=-3 on the 24x24 grid
+MODE_M, MODE_N = 8, 16  # plane-wave indices (m, n) with mu = -3 on the 24 x 24 grid
 
 
-def dominant_eigvec(fixed_point: np.ndarray, p: NotchDeltaParams, mu: float = DOMINANT_PATTERN_MU) -> np.ndarray:
-    J_mu = jacobian_block(mu, fixed_point, p)
-    eigvals, eigvecs = np.linalg.eig(J_mu)
-    vec = eigvecs[:, np.argmax(eigvals.real)].real
-    return vec / np.linalg.norm(vec)
-
-
-def perturbed_field(fixed_point: np.ndarray, eigvec: np.ndarray, rel_amp: float,
-                    rows: int = ROWS, cols: int = COLS):
-    """Homogeneous fixed point + rel_amp * eigvec * cos(mode (m,n)=(8,16) spatial pattern)."""
-    D0, N0, A0, S0 = fixed_point
+def mode_phase(rows: int = ROWS, cols: int = COLS, m: int = MODE_M, n: int = MODE_N) -> np.ndarray:
     r = np.arange(rows).reshape(-1, 1)
     c = np.arange(cols).reshape(1, -1)
-    phi = 2 * np.pi * (MODE_M * r / rows + MODE_N * c / cols)
-    spatial = np.cos(phi)
-    scale = rel_amp * np.array([D0, max(N0, 1e-6), max(A0, 1e-6), S0])
-    D = np.clip(D0 + scale[0] * eigvec[0] * spatial, 0, None)
-    N = np.clip(N0 + scale[1] * eigvec[1] * spatial, 0, None)
-    A = np.clip(A0 + scale[2] * eigvec[2] * spatial, 0, None)
-    S = np.clip(S0 + scale[3] * eigvec[3] * spatial, 0, None)
-    return D, N, A, S
+    return 2 * np.pi * (m * r / rows + n * c / cols)
+
+
+def leading_real_eigvec(J: np.ndarray) -> tuple[float, np.ndarray]:
+    """(lambda, v) for the leading eigenvalue, which must be real."""
+    eigvals, eigvecs = np.linalg.eig(J)
+    k = int(np.argmax(eigvals.real))
+    if abs(eigvals[k].imag) > 1e-12:
+        raise ValueError("leading eigenvalue is complex; no single real eigenvector")
+    return float(eigvals[k].real), eigvecs[:, k].real
+
+
+def eigenmode_state(fixed_point: np.ndarray, eigvec: np.ndarray, rel_amp: float) -> list[np.ndarray]:
+    """x* + eps v cos(phi): exact eigenvector direction, Delta relative amplitude rel_amp."""
+    spatial = np.cos(mode_phase())
+    eps = rel_amp * fixed_point[0] / eigvec[0]
+    return [x0 + eps * v * spatial for x0, v in zip(fixed_point, eigvec)]
+
+
+def v1_componentwise_state(fixed_point: np.ndarray, eigvec: np.ndarray, rel_amp: float) -> list[np.ndarray]:
+    """v1 protocol (comparison only): x* + rel_amp * diag(x*) * (v/|v|) * cos(phi)."""
+    spatial = np.cos(mode_phase())
+    v = eigvec / np.linalg.norm(eigvec)
+    return [np.clip(x0 + rel_amp * max(x0, 1e-6) * vi * spatial, 0, None)
+            for x0, vi in zip(fixed_point, v)]
+
+
+def k_mode_amplitude(field: np.ndarray) -> float:
+    """Amplitude of the (m, n) = (8, 16) plane-wave component of one field
+    (equals eps * v_X for the initial state above)."""
+    dev = field - field.mean()
+    return float(2.0 / field.size * np.abs(np.sum(dev * np.exp(-1j * mode_phase(*field.shape)))))

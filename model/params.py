@@ -29,8 +29,8 @@ class NotchDeltaParams:
     k_cis:   float = 0.5   # k_cis  : cis mutual inactivation rate
 
 
-# Literature-inspired parameters producing a genuine Turing-like lateral
-# inhibition regime (see docs/GEOMETRY_DERIVATION.md, docs/CONTROL_THEORY_DERIVATION.md).
+# Literature-inspired parameters producing a lateral-inhibition patterning
+# regime (see docs/THEORY.md).
 LITERATURE_PARAMS = NotchDeltaParams(
     lam_D=5.0, lam_N=1.0, lam_ASC=1.0, Kd=0.3, n_d=3.0, n_ASC=3.0,
     d_D=0.1, d_N=0.1, d_A=1.0, d_ASC=0.1, f_D=0.05, f_N=0.6, k_cis=0.25,

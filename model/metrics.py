@@ -4,8 +4,8 @@ repository's ``core.py::morans_i`` and
 
 ``q_amp = -Moran(D) * CV(D)^2`` is amplitude-sensitive (degree-2
 homogeneous in the deviation field); Moran's I alone is amplitude-blind
-(scale-invariant) -- see docs/CONTROL_THEORY_DERIVATION.md's note on Figure
-5C (Moran's I pinned at exactly -0.5 throughout growth and saturation).
+(scale-invariant): for a pure three-sublattice field it is exactly -0.5 at
+every amplitude. Not used by the revised figures; kept for the v1 metrics.
 """
 
 from __future__ import annotations

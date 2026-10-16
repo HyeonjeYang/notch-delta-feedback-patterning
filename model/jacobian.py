@@ -11,9 +11,9 @@ linearization into one 4x4 ODE per graph eigenvalue mu:
 
 State order is (D, N, A, S). This construction was independently verified
 against a full finite-difference Jacobian of the 2304-dim vectorized
-lattice RHS to 6e-10 (see docs/GEOMETRY_DERIVATION.md /
-docs/CONTROL_THEORY_DERIVATION.md), and against the exact Schur-complement
-characteristic polynomial to 1.4e-13 (control/schur_verification.py).
+lattice RHS to 6e-10 in the source analysis, and against the Schur-complement
+characteristic polynomial to 1e-13 (control/schur_verification.py,
+figures/data/schur_verification.csv).
 """
 
 from __future__ import annotations

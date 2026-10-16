@@ -1,16 +1,16 @@
-"""Mode-resolved spatial stability screening: for a given homogeneous fixed
-point, scan every nonuniform graph eigenvalue and find the fastest-growing
-mode. Logic copied unmodified from the source repository's
-``patternability_map/scripts/pm_core.py`` (``lambda_pattern``).
+"""Mode-resolved spatial stability screening.
 
-This is the primary screening quantity used throughout the final analysis:
+For a homogeneous equilibrium, scan every graph eigenvalue mu of the contact
+adjacency operator W (W v_mu = mu v_mu) and record the leading eigenvalue of
+the 4x4 block J_mu:
 
-    lambda_pattern(p) = max over nonuniform graph modes mu
-                         of [ max eigenvalue real part of J_mu ]
+    lambda_pattern = max over nonuniform mu of max Re eig(J_mu)
 
-lambda_pattern < 0: homogeneous state linearly stable.
-lambda_pattern = 0: candidate bifurcation boundary.
-lambda_pattern > 0: linearly unstable to a spatial perturbation.
+lambda_pattern < 0: the homogeneous state is linearly stable to all
+spatial perturbations. lambda_pattern > 0: some spatial mode grows.
+
+The 576 eigenvalues of the 24x24 lattice take only 54 distinct values, and
+the scan runs over those.
 """
 
 from __future__ import annotations
@@ -21,26 +21,42 @@ from geometry.graph_spectrum import graph_eigenvalues
 from model.jacobian import jacobian_block
 from model.params import NotchDeltaParams
 
-_ALL_EIGS = graph_eigenvalues()
-_NONUNIFORM_EIGS = _ALL_EIGS[~np.isclose(_ALL_EIGS, 6.0, atol=1e-9)]
 UNIFORM_MU = 6.0
-DOMINANT_PATTERN_MU = -3.0  # the three-sublattice mode, found dominant at every tested point
+DOMINANT_PATTERN_MU = -3.0  # minimum graph eigenvalue: the three-sublattice (K-point) mode
+UNIQUE_MU = np.unique(np.round(graph_eigenvalues(), 12))
+NONUNIFORM_MU = UNIQUE_MU[UNIQUE_MU < UNIFORM_MU - 1e-9]
 
 
-def lambda_pattern(fixed_point: np.ndarray, p: NotchDeltaParams, eigs: np.ndarray | None = None) -> dict:
-    """Mode-resolved spatial stability at one homogeneous fixed point."""
+def leading_eigenvalue(M: np.ndarray) -> complex:
+    eigvals = np.linalg.eigvals(M)
+    return complex(eigvals[int(np.argmax(eigvals.real))])
+
+
+def rhp_count(M: np.ndarray, tol: float = 0.0) -> int:
+    """Number of eigenvalues with real part > tol."""
+    return int(np.sum(np.linalg.eigvals(M).real > tol))
+
+
+def lambda_pattern(fixed_point: np.ndarray, p: NotchDeltaParams, eigs: np.ndarray | None = None,
+                   reduce=None) -> dict:
+    """Mode-resolved spatial stability at one homogeneous equilibrium.
+
+    ``reduce`` optionally maps J_mu to a reduced Jacobian (model/reduced.py)
+    so that the same scan can be run on a matched reduced model."""
     if eigs is None:
-        eigs = _NONUNIFORM_EIGS
-    best_re, best_mu, best_im = -np.inf, None, 0.0
+        eigs = NONUNIFORM_MU
+    transform = reduce if reduce is not None else (lambda J: J)
+    best, best_mu = complex(-np.inf), None
     for mu in eigs:
-        eigvals = np.linalg.eigvals(jacobian_block(mu, fixed_point, p))
-        idx = int(np.argmax(eigvals.real))
-        if eigvals[idx].real > best_re:
-            best_re, best_mu, best_im = float(eigvals[idx].real), float(mu), float(eigvals[idx].imag)
-    uniform_re = float(np.max(np.linalg.eigvals(jacobian_block(UNIFORM_MU, fixed_point, p)).real))
+        lead = leading_eigenvalue(transform(jacobian_block(mu, fixed_point, p)))
+        if lead.real > best.real:
+            best, best_mu = lead, float(mu)
+    uniform = leading_eigenvalue(transform(jacobian_block(UNIFORM_MU, fixed_point, p)))
     return {
-        "nonuniform_max_re_lambda": best_re,
+        "nonuniform_max_re_lambda": best.real,
         "nonuniform_best_mu": best_mu,
-        "nonuniform_oscillatory": bool(abs(best_im) > 1e-9),
-        "uniform_re_lambda": uniform_re,
+        "nonuniform_im_lambda": abs(best.imag),
+        "nonuniform_oscillatory": bool(abs(best.imag) > 1e-9),
+        "uniform_re_lambda": uniform.real,
+        "uniform_im_lambda": abs(uniform.imag),
     }

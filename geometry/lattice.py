@@ -17,7 +17,7 @@ COLS = 24
 SQRT3_2 = float(np.sqrt(3.0) / 2.0)
 
 # The six offsets hex_adj sums, derived from its np.roll composition (see
-# docs/GEOMETRY_DERIVATION.md): cell (r,c) receives contributions from
+# docs/GEOMETRY.md): cell (r,c) receives contributions from
 # (r+dr, c+dc) at each of these six offsets.
 NEIGHBOR_OFFSETS = [(-1, 0), (-1, 1), (0, -1), (0, 1), (1, 0), (1, -1)]
 
