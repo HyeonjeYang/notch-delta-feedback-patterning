@@ -1,4 +1,14 @@
-"""Figure 4 -- Geometry selects the spatial mode."""
+"""Figure 4: where the static loop gain is not enough.
+
+A  all 4000 global-sample points, G(-3) against lambda_pattern, coloured by
+   how many right-half-plane eigenvalues the mu = -3 block has. The 12 points
+   with G < 1 that are still unstable have exactly two such eigenvalues.
+B  Nyquist curves L_-3(i omega) for a stable point (p0), a stationary
+   instability (P2), and point 1730 (complex pair, G = 0.366). Each curve
+   encircles +1 once per right-half-plane eigenvalue.
+C  the right-half-plane eigenvalues of the 12 two-eigenvalue points.
+Data: scripts/global_sample.py, scripts/nyquist_examples.py.
+"""
 
 from __future__ import annotations
 
@@ -11,82 +21,77 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from figures.hex_plot import HEX_CAPTION_NOTE, draw_hex_field
-from geometry.lattice import COLS, ROWS
+from figures.style import AQUA, BLUE, CONTEXT, DATA_DIR, INK, INK_2, MUTED, ORANGE, apply_style, panel_label, save
 
-DATA_DIR = Path(__file__).resolve().parent / "data"
-OUT_DIR = Path(__file__).resolve().parent / "main"
-OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-plt.rcParams.update({"font.size": 10.5, "figure.facecolor": "white",
-                      "savefig.facecolor": "white", "savefig.bbox": "tight", "savefig.dpi": 300})
+G_FLOOR = 1e-4
+CLASSES = [("stable", CONTEXT, "o", 6, "stable (0 RHP)"),
+           ("stationary", BLUE, "o", 7, "stationary (1 RHP, $G>1$)"),
+           ("two_eig_complex", ORANGE, "s", 26, "complex pair (2 RHP, $G<1$)"),
+           ("two_eig_real", AQUA, "^", 30, "real pair (2 RHP, $G<1$)")]
 
 
-def panel_A(ax):
-    ax.set_xlim(-2.2, 2.2); ax.set_ylim(-2.2, 2.2); ax.set_aspect("equal")
-    theta = np.linspace(0, 2 * np.pi, 7)
-    R = 4 * np.pi / 3 / np.sqrt(3)
-    bz_x = R * np.cos(theta + np.pi / 6)
-    bz_y = R * np.sin(theta + np.pi / 6)
-    ax.plot(bz_x, bz_y, "-", color="#555", lw=1.5)
-    ax.plot(0, 0, "o", color="black", ms=10)
-    ax.annotate(r"$\Gamma$" "\n" r"($\mu=6$)", (0, 0), textcoords="offset points", xytext=(10, 8), fontsize=9)
-    K_angles = np.pi / 6 + np.arange(6) * np.pi / 3
-    for a in K_angles:
-        ax.plot(R * np.cos(a), R * np.sin(a), "s", color="#C0392B", ms=8)
-    ax.annotate("K-like\n" r"($\mu=-3$)", (R * np.cos(K_angles[0]), R * np.sin(K_angles[0])),
-               textcoords="offset points", xytext=(10, 6), fontsize=9, color="#C0392B")
-    ax.set_xticks([]); ax.set_yticks([])
-    ax.set_title("A. Brillouin zone of the triangular\ncontact lattice (schematic)", fontsize=10.5)
+def panel_A(ax, r):
+    assert (r.loc[r.G_minus3 < G_FLOOR, "lambda_pattern"] <= 0).all()
+    for cls, colour, marker, size, name in CLASSES:
+        sub = r[r.classification == cls]
+        big = cls.startswith("two")
+        ax.scatter(np.maximum(sub.G_minus3, G_FLOOR), sub.lambda_pattern, s=size, c=colour, marker=marker,
+                   edgecolors="white" if big else "none", linewidths=0.6 if big else 0,
+                   alpha=1.0 if big else 0.55, zorder=4 if big else 2, label=f"{name}: {len(sub)}",
+                   rasterized=not big)
+    ax.axvline(1.0, color=INK_2, lw=0.9, ls="--")
+    ax.axhline(0.0, color=INK_2, lw=0.9, ls="--")
+    ax.set_xscale("log"); ax.set_yscale("symlog", linthresh=0.02)
+    ax.set_xlim(G_FLOOR * 0.7, 60)
+    ax.set_xlabel(r"static loop gain $G(-3)$")
+    ax.set_ylabel(r"$\lambda_{\rm pattern}$ (symlog)")
+    ax.legend(loc="upper left", bbox_to_anchor=(-0.05, -0.25), fontsize=6.8, handletextpad=0.2, markerscale=1.1)
+    ax.set_title("Global sample (n = 4000)", loc="left")
 
 
-def panel_B(ax):
-    df = pd.read_csv(DATA_DIR / "graph_dispersion.csv")
-    piv = df.pivot(index="m", columns="n", values="mu_formula")
-    im = ax.imshow(piv.values, cmap="RdBu_r", origin="lower", extent=[0, COLS, 0, ROWS])
-    ax.plot(0, 0, "o", color="black", ms=8)
-    ax.annotate(r"$\Gamma$ ($\mu=6$)", (0, 0), textcoords="offset points", xytext=(6, 6), fontsize=8)
-    ax.plot(16, 8, "s", color="lime", ms=8, mec="black")
-    ax.annotate(r"K-like ($\mu=-3$)", (16, 8), textcoords="offset points", xytext=(-70, 6), fontsize=8)
-    ax.set_xlabel(r"$n$ ($k_2$ index)"); ax.set_ylabel(r"$m$ ($k_1$ index)")
-    plt.colorbar(im, ax=ax, label=r"$\mu(k_1,k_2)$", fraction=0.046)
-    ax.set_title(r"B. Graph dispersion $\mu(k_1,k_2)$" "\n" r"(numerical, matches closed form to $2.8\times10^{-14}$)",
-                fontsize=10.5)
+def panel_B(ax, ny):
+    styles = {"p0 (stable)": (CONTEXT, "p0: 0 RHP"), "P2 (stationary)": (BLUE, "P2: 1 RHP"),
+              "sample 1730 (complex pair)": (ORANGE, "#1730: 2 RHP")}
+    for ex, (colour, name) in styles.items():
+        g = ny[ny.example == ex]
+        ax.plot(g.re_L, g.im_L, "-", color=colour, lw=1.5, label=name)
+        ax.plot(g.re_L, -g.im_L, "-", color=colour, lw=0.8, alpha=0.55)
+        ax.plot(g.re_L.iloc[0], 0, "o", color=colour, ms=4.5, mec="white", mew=0.6, zorder=5)
+    ax.plot(1, 0, "x", color=INK, ms=7, mew=1.6, zorder=6)
+    ax.annotate("+1", (1, 0), xytext=(1.04, 0.12), fontsize=8, color=INK)
+    ax.axhline(0, color=MUTED, lw=0.6); ax.axvline(0, color=MUTED, lw=0.6)
+    ax.set_xlim(-0.5, 2.0); ax.set_ylim(-1.35, 1.35)
+    ax.set_xlabel(r"Re $L_{-3}(i\omega)$"); ax.set_ylabel(r"Im $L_{-3}(i\omega)$")
+    ax.legend(loc="upper left", bbox_to_anchor=(-0.05, -0.25), fontsize=6.8)
+    ax.set_title("Nyquist curves, $\\mu=-3$", loc="left")
 
 
-def panel_C(ax):
-    df = pd.read_csv(DATA_DIR / "reciprocal_space_growth.csv")
-    piv = df.pivot(index="m", columns="n", values="lambda_max")
-    vmax = np.nanmax(np.abs(piv.values))
-    im = ax.imshow(piv.values, cmap="RdBu_r", origin="lower", extent=[0, COLS, 0, ROWS], vmin=-vmax, vmax=vmax)
-    ax.plot(0, 0, "o", color="black", ms=8)
-    ax.plot(16, 8, "s", color="lime", ms=8, mec="black")
-    ax.set_xlabel("$n$"); ax.set_ylabel("$m$")
-    plt.colorbar(im, ax=ax, label=r"$\lambda_{max}(k)$", fraction=0.046)
-    ax.set_title(r"C. Growth-rate surface at $\lambda_N=2.0$ (P2)" "\n" r"$k=0$ stable, K-like strongest growth",
-                fontsize=10.5)
-
-
-def panel_D(ax):
-    r = np.arange(ROWS).reshape(-1, 1)
-    c = np.arange(COLS).reshape(1, -1)
-    phi = 2 * np.pi * (8 * r / ROWS + 16 * c / COLS)
-    field = np.cos(phi * np.ones((ROWS, COLS)))
-    sm = draw_hex_field(ax, field, -1, 1, cmap="RdBu_r")
-    plt.colorbar(sm, ax=ax, fraction=0.046, label="mode amplitude")
-    ax.set_title(r"D. $\mu=-3$ eigenmode $(m,n)=(8,16)$" "\n" "on the actual hex contact graph", fontsize=10.5)
+def panel_C(ax, cases):
+    for kind, colour, marker, name in [("complex", ORANGE, "s", "complex pairs"), ("real", AQUA, "^", "real pairs")]:
+        sub = cases[cases.pair_type == kind]
+        ax.plot(sub.re, sub.im, marker, color=colour, ms=5, mec="white", mew=0.6, ls="none",
+                label=f"{name} ({sub.sample_id.nunique()} points)")
+    c = cases[cases.sample_id == 1730]
+    ax.annotate("#1730", (c.re.iloc[0], abs(c.im).max()), xytext=(-34, -3), textcoords="offset points",
+                fontsize=7.5, color=INK)
+    ax.axhline(0, color=MUTED, lw=0.6)
+    ax.set_xscale("log")
+    ax.set_xlabel(r"Re $s$ (right half-plane)"); ax.set_ylabel(r"Im $s$")
+    ax.set_ylim(-0.32, 0.32)
+    ax.legend(loc="upper left", bbox_to_anchor=(-0.05, -0.25), fontsize=6.8)
+    ax.set_title(r"Unstable points with $G<1$", loc="left")
 
 
 def main():
-    fig, axes = plt.subplots(2, 2, figsize=(12, 10.5))
-    panel_A(axes[0, 0]); panel_B(axes[0, 1]); panel_C(axes[1, 0]); panel_D(axes[1, 1])
-    fig.suptitle("Figure 4 -- Geometry selects the spatial mode", y=1.02, fontsize=14)
-    fig.text(0.5, -0.01, HEX_CAPTION_NOTE, ha="center", fontsize=8, style="italic", color="#555")
-    fig.tight_layout()
-    fig.savefig(OUT_DIR / "Fig4_geometry_selects_mode.png", dpi=300, bbox_inches="tight")
-    fig.savefig(OUT_DIR / "Fig4_geometry_selects_mode.pdf", bbox_inches="tight")
-    plt.close(fig)
-    print(f"wrote {OUT_DIR / 'Fig4_geometry_selects_mode.png'}")
+    apply_style()
+    r = pd.read_csv(DATA_DIR / "global_sample_results.csv")
+    ny = pd.read_csv(DATA_DIR / "nyquist_examples.csv")
+    cases = pd.read_csv(DATA_DIR / "two_eigenvalue_cases.csv")
+    fig, axes = plt.subplots(1, 3, figsize=(7.4, 2.6), gridspec_kw={"wspace": 0.45, "width_ratios": [1.15, 1, 1]})
+    panel_A(axes[0], r); panel_B(axes[1], ny); panel_C(axes[2], cases)
+    for ax, letter in zip(axes, "ABC"):
+        panel_label(ax, letter, x=-0.26)
+    save(fig, "Fig4_beyond_static_gain")
 
 
 if __name__ == "__main__":

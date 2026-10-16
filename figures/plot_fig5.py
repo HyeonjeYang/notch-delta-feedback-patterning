@@ -1,4 +1,17 @@
-"""Figure 5 -- Linear instability becomes a nonlinear pattern (P2, lam_N=2.0)."""
+"""Figure 5: what the explicit downstream layer adds.
+
+A  proneural-timescale family at P2. The growth rate of the mu = -3 mode depends on alpha,
+   while the equilibrium, G(-3) and lam_N^c do not. The DNA and DN
+   reductions are the alpha -> infinity limits of the downstream layer.
+B  global sample: growth rate of the matched DNA reduction against the
+   explicit model, for every point unstable in both.
+C  nonlinear simulations at P2 on the 24 x 24 lattice: K-mode amplitude of D
+   for the explicit model and the DNA reduction, each started on its own
+   exact eigenvector. Shaded spans are the prespecified fitting windows and
+   dashed lines are the predicted slopes.
+D  final Delta fields of the two models, which are identical.
+Data: scripts/timescale_family.py, scripts/global_sample.py, scripts/growth_validation.py.
+"""
 
 from __future__ import annotations
 
@@ -11,92 +24,103 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from figures.hex_plot import HEX_CAPTION_NOTE, draw_hex_field
-
-DATA_DIR = Path(__file__).resolve().parent / "data"
-OUT_DIR = Path(__file__).resolve().parent / "main"
-OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-plt.rcParams.update({"font.size": 10.5, "figure.facecolor": "white",
-                      "savefig.facecolor": "white", "savefig.bbox": "tight", "savefig.dpi": 300})
-
-PREDICTED_RE_LAMBDA = 0.10307  # mu=-3 leading pole at lam_N=2.0 (control/root_locus.py)
+from figures.hex_plot import draw_hex_field
+from figures.style import (AQUA, BLUE, DATA_DIR, INK, INK_2, ORANGE, TIME_LABEL, apply_style, panel_label,
+                           save)
 
 
-TIME_LABEL = r"simulation time $t$ (dimensionless)"
+def panel_A(ax, fam, lam_c):
+    ax.plot(fam.alpha, fam.P2_lambda, "-", color=BLUE, label="explicit D-N-A-S")
+    slow = fam[fam.alpha <= 30]
+    ax.plot(slow.alpha, slow.P2_slow_S_estimate, "--", color=INK_2, lw=1.0, label=r"slow-S limit $d_S[G(-3)-1]$")
+    ax.axhline(fam.P2_lambda_DNA.iloc[0], color=ORANGE, lw=1.4, label="DNA reduction (S slaved)")
+    ax.axhline(fam.P2_lambda_DN.iloc[0], color=AQUA, lw=1.4, ls=(0, (1, 1)), label="DN reduction (A, S slaved)")
+    k = int(np.argmin(np.abs(np.log(fam.alpha))))
+    ax.plot(fam.alpha.iloc[k], fam.P2_lambda.iloc[k], "o", color=BLUE, ms=5, mec="white", mew=0.8, zorder=5)
+    ax.annotate(r"$\alpha=1$", (1, fam.P2_lambda.iloc[k]), xytext=(5, -11), textcoords="offset points", fontsize=7.5)
+    ax.text(0.03, 0.80, rf"$\lambda_N^c={lam_c:.9f}$" "\nfor every " r"$\alpha$", transform=ax.transAxes,
+            ha="left", va="top", fontsize=7, color=INK)
+    ax.set_xscale("log"); ax.set_yscale("log")
+    ax.set_ylim(4e-4, 1e2)
+    ax.set_xlabel(r"proneural timescale factor $\alpha$")
+    ax.set_ylabel(r"growth rate of $\mu=-3$ at P2")
+    ax.legend(loc="lower right", fontsize=6.6)
+    ax.set_title("Same onset, different speed", loc="left")
 
 
-def panel_A(ax, df):
-    ax.plot(df["time"], np.maximum(df["q_amp"], 1e-30), color="#2E86AB", lw=1.8)
-    ax.axhline(1e-5, color="#333", ls="--", lw=1, label="finite-amplitude gate")
+def panel_B(ax, r):
+    both = r[(r.lambda_pattern > 0) & (r.lambda_DNA > 0)]
+    ratio = both.lambda_DNA / both.lambda_pattern
+    ax.scatter(both.lambda_pattern, both.lambda_DNA, s=7, c=BLUE, alpha=0.5, edgecolors="none", rasterized=True)
+    lo = 1e-4
+    ax.plot([lo, 1e2], [lo, 1e2], "--", color=INK_2, lw=0.9)
+    ax.text(2e-4, 4e-4, "equal rates", rotation=38, fontsize=7, color=INK_2)
+    ax.set_xscale("log"); ax.set_yscale("log")
+    ax.set_xlim(lo, 10); ax.set_ylim(lo, 2e2)
+    ax.set_xlabel(r"explicit model $\lambda_{\rm pattern}$")
+    ax.set_ylabel(r"DNA reduction $\lambda_{\rm pattern}$")
+    ax.text(0.97, 0.05, f"n = {len(both)}\nmedian ratio {ratio.median():.1f}\n"
+            f"reduction faster in {(ratio > 1).mean():.0%}", transform=ax.transAxes, ha="right", va="bottom",
+            fontsize=7, color=INK)
+    ax.set_title("Global sample", loc="left")
+
+
+def panel_C(ax, ts, summ, D_star):
+    text_at = {"full_P2": (72, 1.5e-5), "DNA_P2": (12, 2e-2)}
+    for run, colour, name in [("full_P2", BLUE, "explicit model"), ("DNA_P2", ORANGE, "DNA reduction")]:
+        g = ts[ts.run == run]
+        s = summ[summ.run == run].iloc[0]
+        a0 = g.a_D.iloc[0] / D_star
+        ax.axvspan(0, s.window_end, color=colour, alpha=0.08, lw=0)
+        ax.plot(g.time, g.a_D / D_star, "-", color=colour, label=name, zorder=3)
+        t = np.linspace(0, s.window_end, 50)
+        ax.plot(t, a0 * np.exp(s.predicted_lambda * t), "--", color=INK, lw=0.9, zorder=4)
+        ax.text(*text_at[run], f"fitted {s.fitted_slope:.4f}\npredicted {s.predicted_lambda:.4f}\n"
+                f"window [0, {s.window_end:g}]", fontsize=6.6, color=INK)
     ax.set_yscale("log")
-    ax.set_xlabel(TIME_LABEL); ax.set_ylabel(r"$q_{amp}$ (dimensionless)")
-    ax.legend(fontsize=8, frameon=False)
-    ax.set_title(r"A. Amplitude vs. time (P2, $\lambda_N=2.0$)", fontsize=10.5)
+    ax.set_xlim(0, 180)
+    ax.set_xlabel(TIME_LABEL)
+    ax.set_ylabel(r"K-mode amplitude of $D$ / $D^*$")
+    ax.legend(loc="upper left", bbox_to_anchor=(0.3, 0.86), fontsize=6.8)
+    ax.set_title("Nonlinear growth at P2", loc="left")
 
 
-def panel_B(ax, df):
-    sub = df[df.time <= 40]
-    amp = np.maximum(sub["std_D"].values, 1e-30)
-    t = sub["time"].values
-    ax.semilogy(t, amp, "o", ms=3, color="#2E86AB", label=r"observed $\mathrm{std}(D)$")
-    fit_mask = (t >= 5) & (t <= 20)
-    slope, intercept = np.polyfit(t[fit_mask], np.log(amp[fit_mask]), 1)
-    ax.semilogy(t, np.exp(intercept + slope * t), "-", color="#333", lw=1.2, label=fr"fit slope$={slope:.4f}$")
-    ax.semilogy(t, amp[0] * np.exp(PREDICTED_RE_LAMBDA * (t - t[0])), "--", color="#C0392B", lw=1.5,
-               label=fr"predicted pole$={PREDICTED_RE_LAMBDA:.4f}$")
-    ax.set_xlabel(TIME_LABEL); ax.set_ylabel(r"$\mathrm{std}(D)$ (dimensionless)")
-    ax.legend(fontsize=8, frameon=False)
-    ax.set_title("B. Linear growth window: observed vs. predicted", fontsize=10.5)
-
-
-def panel_C(fig, gs_row, npz):
-    times_to_show = [0.0, 40.0, 600.0]
-    labels = [r"initial ($t=0$)", r"growth ($t=40$)", r"saturated ($t=600$)"]
-    all_t = npz["times"]
-    D = npz["D"]
-    idxs = [int(np.argmin(np.abs(all_t - t))) for t in times_to_show]
-    fields = [D[:, :, i] for i in idxs]
-    vmin = min(f.min() for f in fields); vmax = max(f.max() for f in fields)
-    axes = [fig.add_subplot(gs_row[i]) for i in range(3)]
-    sm = None
-    for ax, field, label in zip(axes, fields, labels):
-        sm = draw_hex_field(ax, field, vmin, vmax, cmap="viridis")
-        ax.set_title(label, fontsize=9.5)
-    cax = fig.add_axes([0.93, 0.1, 0.012, 0.22])
-    fig.colorbar(sm, cax=cax, label=r"$D$ (dimensionless, common scale)")
-    axes[0].text(-0.05, 0.5, "C. Real hexagonal-cell snapshots\n(same color scale)", fontsize=10.5,
-               transform=axes[0].transAxes, ha="right", va="center", rotation=90)
+def panel_D(fig, spec, fields, diff):
+    sub = spec.subgridspec(2, 1, hspace=0.3)
+    vmin = min(f.min() for f in fields.values()); vmax = max(f.max() for f in fields.values())
+    axes = []
+    for i, (name, field) in enumerate(fields.items()):
+        ax = fig.add_subplot(sub[i, 0])
+        sm = draw_hex_field(ax, field, vmin, vmax, cmap="viridis", radius=0.6)
+        ax.set_title(name, fontsize=8, loc="left")
+        axes.append(ax)
+    cb = fig.colorbar(sm, ax=axes, orientation="vertical", fraction=0.05, pad=0.02)
+    cb.set_label(r"$D$ at $t=400$, P2")
+    axes[1].text(0.5, -0.08, rf"max $|D_{{\rm explicit}}-D_{{\rm DNA}}|={diff:.0e}$", transform=axes[1].transAxes,
+                 fontsize=7, color=INK, ha="center", va="top")
+    return axes[0]
 
 
 def main():
-    df = pd.read_csv(DATA_DIR / "nonlinear_figure_data.csv")
-    npz = np.load(DATA_DIR / "p2_field_snapshots.npz")
+    apply_style()
+    fam = pd.read_csv(DATA_DIR / "timescale_family.csv")
+    lam_c = float(fam.critical_lam_N.dropna().iloc[0])
+    r = pd.read_csv(DATA_DIR / "global_sample_results.csv")
+    ts = pd.read_csv(DATA_DIR / "growth_timeseries.csv")
+    summ = pd.read_csv(DATA_DIR / "growth_validation.csv")
+    finals = np.load(DATA_DIR / "pattern_final_fields.npz")
+    D_star = float(fam.P2_D_star.iloc[0])
 
-    fig = plt.figure(figsize=(13, 8.5))
-    # wspace/hspace give the rotated y-axis labels (e.g. panel B's std(D))
-    # room so they don't run into the neighbouring panel's tick labels.
-    gs = fig.add_gridspec(2, 3, height_ratios=[1, 1], wspace=0.45, hspace=0.5)
-    ax_a = fig.add_subplot(gs[0, 0]); ax_b = fig.add_subplot(gs[0, 1])
-    panel_A(ax_a, df); panel_B(ax_b, df)
-
-    ax_d = fig.add_subplot(gs[0, 2])
-    D_final = npz["D"][:, :, -1].ravel()
-    ax_d.hist(D_final, bins=30, color="#8E44AD", alpha=0.8)
-    ax_d.axvline(D_final.mean(), color="black", ls="--", lw=1)
-    ax_d.set_xlabel(r"$D$ (dimensionless, final, $t=600$)"); ax_d.set_ylabel("cell count")
-    ax_d.set_title("D. Bimodal state separation\nat saturation (sender/receiver)", fontsize=10.5)
-
-    gs_row = gs[1, :].subgridspec(1, 3, wspace=0.1)
-    panel_C(fig, gs_row, npz)
-
-    fig.suptitle(r"Figure 5 -- Linear instability becomes a nonlinear pattern (P2, $\lambda_N=2.0$)",
-                y=1.02, fontsize=14)
-    fig.text(0.35, 0.0, HEX_CAPTION_NOTE, ha="center", fontsize=8, style="italic", color="#555")
-    fig.savefig(OUT_DIR / "Fig5_nonlinear_pattern.png", dpi=300, bbox_inches="tight")
-    fig.savefig(OUT_DIR / "Fig5_nonlinear_pattern.pdf", bbox_inches="tight")
-    plt.close(fig)
-    print(f"wrote {OUT_DIR / 'Fig5_nonlinear_pattern.png'}")
+    fig = plt.figure(figsize=(7.2, 6.4))
+    gs = fig.add_gridspec(2, 2, wspace=0.38, hspace=0.5)
+    ax_a = fig.add_subplot(gs[0, 0]); ax_b = fig.add_subplot(gs[0, 1]); ax_c = fig.add_subplot(gs[1, 0])
+    panel_A(ax_a, fam, lam_c); panel_B(ax_b, r); panel_C(ax_c, ts, summ, D_star)
+    ax_d = panel_D(fig, gs[1, 1], {"explicit model": finals["D_full_P2"], "DNA reduction": finals["D_DNA_P2"]},
+                   float(summ.final_D_maxabs_diff_full_vs_DNA_P2.iloc[0]))
+    for ax, letter in zip([ax_a, ax_b, ax_c], "ABC"):
+        panel_label(ax, letter, x=-0.24)
+    panel_label(ax_d, "D", x=-0.12, y=1.12)
+    save(fig, "Fig5_explicit_dynamics")
 
 
 if __name__ == "__main__":
