@@ -53,7 +53,7 @@ h_D(S) = 1/(1 + (K_d/S)^n_D),   h_S(A) = 1/(1 + (A/K_d)^n_S),   s_X = sum over t
 
 ```bash
 pip install -r requirements.txt
-pytest                                   # 340 checks, about 4 s
+pytest                                   # 341 checks, about 5 s
 python scripts/reproduce_all.py          # every data file and figure, about 15 min
 python scripts/reproduce_all.py --figures  # figures only, from figures/data/
 ```
@@ -70,7 +70,7 @@ python scripts/reproduce_all.py --figures  # figures only, from figures/data/
 | `scripts/` | one script per data set (see `scripts/reproduce_all.py` for the order) |
 | `figures/` | `plot_fig1.py`-`plot_fig5.py`, `plot_supplementary.py`, shared `style.py`; `data/`, `main/`, `supplementary/` |
 | `docs/` | `THEORY.md` (propositions and proofs), `GEOMETRY.md`, `MANUSCRIPT_NUMBERS.md` |
-| `manuscript/` | revised manuscript draft and response to reviewers |
+| `manuscript/` | revised manuscript draft and response to reviewers (`.md` sources; `python manuscript/build.py` builds `.docx` and `.pdf`) |
 | `tests/` | validation suite |
 | `archive/` | frozen earlier versions (not imported or tested) |
 
