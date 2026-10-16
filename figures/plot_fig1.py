@@ -16,21 +16,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import TwoSlopeNorm
-from matplotlib.patches import RegularPolygon
 
-from figures.hex_plot import HEX_CAPTION_NOTE, sublattice_labels
+from figures.hex_plot import HEX_CAPTION_NOTE, draw_hex_cells, hexagon_offsets, sublattice_label
 from figures.style import BLUE, DIVERGING, INK, ORANGE, YELLOW, apply_style, panel_label, save
 from geometry.graph_spectrum import circulant_eigenvalue
-from geometry.lattice import COLS, NEIGHBOR_OFFSETS, ROWS, hex_centers
+from geometry.lattice import COLS, NEIGHBOR_OFFSETS, ROWS
 
 CELL_GREY, NEIGHBOUR = "#d6d5ce", "#f6c3ad"
-
-
-def _hex_axes(ax, x, y):
-    ax.set_xlim(x.min() - 1, x.max() + 1); ax.set_ylim(y.min() - 1, y.max() + 1)
-    ax.set_aspect("equal"); ax.set_xticks([]); ax.set_yticks([]); ax.grid(False)
-    for spine in ax.spines.values():
-        spine.set_visible(False)
 
 
 def panel_A(ax):
@@ -39,28 +31,16 @@ def panel_A(ax):
 
 
 def panel_B(ax):
-    rows, cols, cr, cc = 7, 7, 3, 3
-    x, y = hex_centers(rows, cols)
-    for r in range(rows):
-        for c in range(cols):
-            colour = ORANGE if (r, c) == (cr, cc) else (
-                NEIGHBOUR if (r - cr, c - cc) in NEIGHBOR_OFFSETS else CELL_GREY)
-            ax.add_patch(RegularPolygon((x[r, c], y[r, c]), 6, radius=0.58, facecolor=colour,
-                                        edgecolor="white", linewidth=1))
-    _hex_axes(ax, x, y)
+    offsets = hexagon_offsets(3)
+    colours = [ORANGE if o == (0, 0) else (NEIGHBOUR if o in NEIGHBOR_OFFSETS else CELL_GREY) for o in offsets]
+    draw_hex_cells(ax, offsets, colours)
     ax.set_title("Six contact neighbours per cell", loc="left")
 
 
 def panel_C(ax):
-    rows, cols = 9, 9
-    labels = sublattice_labels(rows, cols)
-    x, y = hex_centers(rows, cols)
+    offsets = hexagon_offsets(4)
     colours = {0: BLUE, 1: ORANGE, 2: YELLOW}
-    for r in range(rows):
-        for c in range(cols):
-            ax.add_patch(RegularPolygon((x[r, c], y[r, c]), 6, radius=0.58, facecolor=colours[int(labels[r, c])],
-                                        edgecolor="white", linewidth=1))
-    _hex_axes(ax, x, y)
+    draw_hex_cells(ax, offsets, [colours[sublattice_label(dr, dc)] for dr, dc in offsets])
     handles = [plt.Rectangle((0, 0), 1, 1, color=colours[i]) for i in range(3)]
     ax.legend(handles, ["sublattice 1", "sublattice 2", "sublattice 3"], loc="upper center",
               bbox_to_anchor=(0.5, 0.02), ncol=3, handlelength=1.0, columnspacing=1.0)
@@ -83,6 +63,7 @@ def panel_D(ax):
     ax.set_xlabel(r"$n$"); ax.set_ylabel(r"$m$")
     cb = plt.colorbar(im, ax=ax, fraction=0.046, pad=0.03, ticks=[-3, 0, 3, 6])
     cb.set_label(r"graph eigenvalue $\mu(m,n)$")
+    cb.ax.grid(False)
     ax.set_title(r"Spectrum of the contact graph ($24\times24$)", loc="left")
 
 

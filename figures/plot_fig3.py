@@ -89,11 +89,11 @@ def main():
     pc = phase_map(axes[1, 0], maps, "lam_N_x_d_A", r"$\lambda_N$", r"$d_A$", marks)
     axes[1, 0].set_xscale("log"); axes[1, 0].set_yscale("log")
     axes[1, 0].set_title(r"$\lambda_N \times d_A$", loc="left")
-    fig.colorbar(pc, ax=axes[1, 0], fraction=0.046, pad=0.03, label=r"$\lambda_{\rm pattern}$")
+    fig.colorbar(pc, ax=axes[1, 0], fraction=0.046, pad=0.03, label=r"$\lambda_{\rm pattern}$").ax.grid(False)
     pc = phase_map(axes[1, 1], maps, "n_ASC_x_Kd", r"$n_S$", r"$K_d$", [(P0.n_ASC, P0.Kd, "o", "p0")])
     axes[1, 1].set_yscale("log")
     axes[1, 1].set_title(r"$n_S \times K_d$", loc="left")
-    fig.colorbar(pc, ax=axes[1, 1], fraction=0.046, pad=0.03, label=r"$\lambda_{\rm pattern}$")
+    fig.colorbar(pc, ax=axes[1, 1], fraction=0.046, pad=0.03, label=r"$\lambda_{\rm pattern}$").ax.grid(False)
     for ax, letter in zip(axes.flat, "ABCD"):
         panel_label(ax, letter, x=-0.22)
     save(fig, "Fig3_kinetic_control")

@@ -85,20 +85,23 @@ def panel_C(ax, ts, summ, D_star):
     ax.set_title("Nonlinear growth at P2", loc="left")
 
 
-def panel_D(fig, spec, fields, diff):
-    sub = spec.subgridspec(2, 1, hspace=0.3)
+def panel_D(ax, fields, diff):
+    """ax is a frame occupying the same grid cell as the other panels; the two
+    fields are drawn as hexagonal windows inside it."""
+    ax.axis("off")
+    ax.set_title("Final pattern at P2 ($t=400$)", loc="left")
     vmin = min(f.min() for f in fields.values()); vmax = max(f.max() for f in fields.values())
-    axes = []
     for i, (name, field) in enumerate(fields.items()):
-        ax = fig.add_subplot(sub[i, 0])
-        sm = draw_hex_field(ax, field, vmin, vmax, cmap="viridis", radius=0.6)
-        ax.set_title(name, fontsize=8, loc="left")
-        axes.append(ax)
-    cb = fig.colorbar(sm, ax=axes, orientation="vertical", fraction=0.05, pad=0.02)
-    cb.set_label(r"$D$ at $t=400$, P2")
-    axes[1].text(0.5, -0.08, rf"max $|D_{{\rm explicit}}-D_{{\rm DNA}}|={diff:.0e}$", transform=axes[1].transAxes,
-                 fontsize=7, color=INK, ha="center", va="top")
-    return axes[0]
+        sub = ax.inset_axes([0.0 + 0.52 * i, 0.26, 0.48, 0.68])
+        sm = draw_hex_field(sub, field, vmin, vmax, cmap="viridis")
+        sub.set_title(name, fontsize=8)
+    cax = ax.inset_axes([0.1, 0.12, 0.8, 0.045])
+    cb = plt.colorbar(sm, cax=cax, orientation="horizontal")
+    cb.set_label(r"Delta $D$", fontsize=7.5)
+    cb.ax.tick_params(labelsize=7); cb.ax.grid(False)
+    mant, expo = f"{diff:.0e}".split("e")
+    ax.text(0.5, -0.12, rf"max $|D_{{\mathrm{{explicit}}}}-D_{{\mathrm{{DNA}}}}|={mant}\times10^{{{int(expo)}}}$",
+            transform=ax.transAxes, fontsize=7, color=INK, ha="center", va="top")
 
 
 def main():
@@ -113,13 +116,13 @@ def main():
 
     fig = plt.figure(figsize=(7.2, 6.4))
     gs = fig.add_gridspec(2, 2, wspace=0.38, hspace=0.5)
-    ax_a = fig.add_subplot(gs[0, 0]); ax_b = fig.add_subplot(gs[0, 1]); ax_c = fig.add_subplot(gs[1, 0])
+    ax_a, ax_b = fig.add_subplot(gs[0, 0]), fig.add_subplot(gs[0, 1])
+    ax_c, ax_d = fig.add_subplot(gs[1, 0]), fig.add_subplot(gs[1, 1])
     panel_A(ax_a, fam, lam_c); panel_B(ax_b, r); panel_C(ax_c, ts, summ, D_star)
-    ax_d = panel_D(fig, gs[1, 1], {"explicit model": finals["D_full_P2"], "DNA reduction": finals["D_DNA_P2"]},
-                   float(summ.final_D_maxabs_diff_full_vs_DNA_P2.iloc[0]))
-    for ax, letter in zip([ax_a, ax_b, ax_c], "ABC"):
+    panel_D(ax_d, {"explicit model": finals["D_full_P2"], "DNA reduction": finals["D_DNA_P2"]},
+            float(summ.final_D_maxabs_diff_full_vs_DNA_P2.iloc[0]))
+    for ax, letter in zip([ax_a, ax_b, ax_c, ax_d], "ABCD"):
         panel_label(ax, letter, x=-0.24)
-    panel_label(ax_d, "D", x=-0.12, y=1.12)
     save(fig, "Fig5_explicit_dynamics")
 
 
