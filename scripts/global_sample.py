@@ -1,10 +1,12 @@
 """Recompute every statistic of the 4000-point global parameter sample.
 
-Input: figures/data/global_sample_parameters.csv. These are the 13 kinetic
-parameters of each point, unchanged from v1, which drew them by Latin
-hypercube sampling (log-uniform rates, uniform Hill exponents). The sampling
-code itself is not in this repository. ``v1_classification`` is carried
-along for traceability only.
+Input: figures/data/global_sample_parameters.csv, the 13 kinetic parameters
+of each point, unchanged from v1. They are a Latin hypercube sample
+(scipy.stats.qmc.LatinHypercube, seed 20260817, n = 4000) over p0 x [0.1, 10]
+for every rate and constant (log-uniform) and [1, 6] for the two Hill
+exponents (uniform). ``latin_hypercube_parameters`` regenerates the sample, and
+``main`` first checks that it matches the stored file exactly.
+``v1_classification`` is carried along for traceability only.
 
 Output: figures/data/global_sample_results.csv. One row per point:
 
@@ -40,6 +42,24 @@ from stability.mode_scan import DOMINANT_PATTERN_MU, UNIQUE_MU, lambda_pattern
 from stability.sensitivity import PARAM_NAMES
 
 DATA_DIR = Path(__file__).resolve().parents[1] / "figures" / "data"
+LHS_SEED, LHS_N = 20260817, 4000
+HILL = ("n_d", "n_ASC")
+
+
+def latin_hypercube_parameters(seed: int = LHS_SEED, n: int = LHS_N) -> np.ndarray:
+    """(n, 13) array in PARAM_NAMES order, exactly as drawn for v1."""
+    from scipy.stats import qmc
+
+    from model.params import P0
+    unit = qmc.LatinHypercube(d=len(PARAM_NAMES), seed=seed).random(n=n)
+    cols = []
+    for i, name in enumerate(PARAM_NAMES):
+        if name in HILL:
+            cols.append(1.0 + unit[:, i] * 5.0)
+        else:
+            lo, hi = 0.1 * getattr(P0, name), 10.0 * getattr(P0, name)
+            cols.append(np.exp(np.log(lo) + unit[:, i] * (np.log(hi) - np.log(lo))))
+    return np.column_stack(cols)
 
 
 def classify(lam_pattern: float, n_rhp: int, n_complex: int) -> str:
@@ -82,6 +102,9 @@ def analyse(p: NotchDeltaParams) -> dict:
 
 def main() -> None:
     params = pd.read_csv(DATA_DIR / "global_sample_parameters.csv", float_precision="round_trip")
+    regenerated = latin_hypercube_parameters()
+    assert np.allclose(regenerated, params[PARAM_NAMES].values, rtol=1e-14, atol=0), "stored sample != seed"
+    print(f"stored parameters match the Latin hypercube regenerated from seed {LHS_SEED}")
     rows = []
     for _, r in tqdm(params.iterrows(), total=len(params), desc="global sample"):
         p = NotchDeltaParams(*[float(r[name]) for name in PARAM_NAMES])

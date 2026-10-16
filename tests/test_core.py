@@ -198,3 +198,12 @@ def test_eigenmode_initial_state_has_exact_direction():
     amps = np.array([k_mode_amplitude(f) for f in fields])
     assert amps[0] == pytest.approx(1e-6 * fp[0], rel=1e-9)
     assert np.allclose(amps / amps[0], np.abs(v / v[0]), rtol=1e-8)
+
+
+def test_global_sample_regenerates_from_seed():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("global_sample", Path(__file__).resolve().parents[1] / "scripts" / "global_sample.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    stored = pd.read_csv(DATA_DIR / "global_sample_parameters.csv", float_precision="round_trip")
+    assert np.array_equal(module.latin_hypercube_parameters(), stored[PARAM_NAMES].values)
