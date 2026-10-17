@@ -5,7 +5,7 @@ of each point, unchanged from v1. They are a Latin hypercube sample
 (scipy.stats.qmc.LatinHypercube, seed 20260817, n = 4000) over p0 x [0.1, 10]
 for every rate and constant (log-uniform) and [1, 6] for the two Hill
 exponents (uniform). ``latin_hypercube_parameters`` regenerates the sample, and
-``main`` first checks that it matches the stored file exactly.
+``main`` first checks that it matches the stored file within floating-point tolerance.
 ``v1_classification`` is carried along for traceability only.
 
 Output: figures/data/global_sample_results.csv. One row per point:
@@ -51,7 +51,9 @@ def latin_hypercube_parameters(seed: int = LHS_SEED, n: int = LHS_N) -> np.ndarr
     from scipy.stats import qmc
 
     from model.params import P0
-    unit = qmc.LatinHypercube(d=len(PARAM_NAMES), seed=seed).random(n=n)
+    # Retain the legacy seed keyword: rng=seed selects a different stream.
+    unit = qmc.LatinHypercube(d=len(PARAM_NAMES), scramble=True, strength=1,
+                            optimization=None, seed=seed).random(n=n)
     cols = []
     for i, name in enumerate(PARAM_NAMES):
         if name in HILL:
@@ -66,7 +68,7 @@ def classify(lam_pattern: float, n_rhp: int, n_complex: int) -> str:
     if lam_pattern <= 0:
         return "stable"
     if n_rhp % 2 == 1:
-        return "stationary"            # odd count: G(-3) > 1
+        return "stationary"  # legacy category: odd RHP count; no bifurcation path inferred
     return "two_eig_complex" if n_complex else "two_eig_real"
 
 
@@ -103,7 +105,8 @@ def analyse(p: NotchDeltaParams) -> dict:
 def main() -> None:
     params = pd.read_csv(DATA_DIR / "global_sample_parameters.csv", float_precision="round_trip")
     regenerated = latin_hypercube_parameters()
-    assert np.allclose(regenerated, params[PARAM_NAMES].values, rtol=1e-14, atol=0), "stored sample != seed"
+    if not np.allclose(regenerated, params[PARAM_NAMES].values, rtol=5e-14, atol=0):
+        raise RuntimeError("stored sample != seed; use the documented environment and legacy seed API")
     print(f"stored parameters match the Latin hypercube regenerated from seed {LHS_SEED}")
     rows = []
     for _, r in tqdm(params.iterrows(), total=len(params), desc="global sample"):

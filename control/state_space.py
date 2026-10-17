@@ -77,7 +77,9 @@ def nyquist_curve(J_mu: np.ndarray, omega: np.ndarray) -> np.ndarray:
 def nyquist_rhp_count(J_mu: np.ndarray, n: int = 4000) -> int:
     """Number of right-half-plane closed-loop poles from the winding of
     1 - L_mu(i omega) about 0 (open loop stable, so P = 0). Used only as an
-    independent check of the eigenvalue count."""
+    independent check of the eigenvalue count away from marginal stability.
+    As with any sampled winding computation, the frequency grid must resolve
+    the curve; the all-sample audit checks it against direct eigenvalues."""
     scale = max(1.0, float(np.max(np.abs(np.linalg.eigvals(J_mu)))))
     w_pos = scale * np.logspace(-8, 4, n)
     omega = np.concatenate([-w_pos[::-1], [0.0], w_pos])

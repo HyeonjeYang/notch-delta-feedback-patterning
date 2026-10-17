@@ -1,8 +1,8 @@
-"""Exact deterministic D-N-A-S drift equations, copied unmodified from the
+"""Exact deterministic D-N-A-S drift equations, originating from the
 source repository's
 ``src/model1_notch_delta_stochastic/literature_ver2.py::_drift_ver2``
-(``model_variant="modern"`` -- the only variant used anywhere in the final
-analysis). No equation, sign, or coefficient was changed.
+(``model_variant="modern"``). Hill functions are evaluated in log space,
+without the historical concentration floor or saturation cap.
 
     D_dot = lam_D * h_D(S) - d_D*D - f_D*D*s_N - k_cis*N*D
     N_dot = lam_N          - d_N*N - f_N*N*s_D - k_cis*N*D
@@ -18,34 +18,35 @@ analysis). No equation, sign, or coefficient was changed.
 from __future__ import annotations
 
 import numpy as np
+from scipy.special import expit
 
 from model.params import NotchDeltaParams
 
 
 def hill_D(S: np.ndarray, p: NotchDeltaParams) -> np.ndarray:
-    S_safe = np.maximum(S, 1e-8)
-    return 1.0 / (1.0 + (p.Kd / S_safe) ** p.n_d)
+    with np.errstate(divide="ignore"):
+        log_ratio = np.log(np.maximum(np.asarray(S), 0.0)) - np.log(p.Kd)
+    return expit(p.n_d * log_ratio)
 
 
 def hill_ASC(A: np.ndarray, p: NotchDeltaParams) -> np.ndarray:
-    a_ratio = np.minimum(np.asarray(A) / p.Kd, 1e5)
-    return 1.0 / (1.0 + a_ratio ** p.n_ASC)
+    with np.errstate(divide="ignore"):
+        log_ratio = np.log(np.maximum(np.asarray(A), 0.0)) - np.log(p.Kd)
+    return expit(-p.n_ASC * log_ratio)
 
 
 def dhillD_dS(S: float, p: NotchDeltaParams) -> float:
     """Analytic derivative of hill_D wrt S (S > 0)."""
-    u = (p.Kd / S) ** p.n_d
-    h = 1.0 / (1.0 + u)
-    return p.n_d * u / S * h ** 2
+    logit = p.n_d * (np.log(S) - np.log(p.Kd))
+    return float(p.n_d * expit(logit) * expit(-logit) / S)
 
 
 def dhillS_dA(A: float, p: NotchDeltaParams) -> float:
     """Analytic derivative of hill_ASC wrt A (A >= 0)."""
     if A <= 0.0:
         return 0.0
-    v = (A / p.Kd) ** p.n_ASC
-    h = 1.0 / (1.0 + v)
-    return -p.n_ASC * v / A * h ** 2
+    logit = p.n_ASC * (np.log(A) - np.log(p.Kd))
+    return float(-p.n_ASC * expit(logit) * expit(-logit) / A)
 
 
 def drift(D: np.ndarray, N: np.ndarray, A: np.ndarray, S: np.ndarray,

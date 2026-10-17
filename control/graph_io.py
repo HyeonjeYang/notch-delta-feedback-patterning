@@ -10,8 +10,8 @@ equilibrium,
     x_dot = J_loc x + B u,    y = C x,    u = W y  ->  J_mu = J_loc + mu B C,
 
 where J_loc is J_mu with every mu-proportional (neighbour) entry removed.
-The isolated cell's static input-output gain is K = -C J_loc^{-1} B (2x2),
-and Sylvester's determinant identity gives
+When J_loc is nonsingular the local static input-output gain is
+K = -C J_loc^{-1} B (2x2), and Sylvester's determinant identity gives
 
     det J_mu = det(J_loc) * det(I - mu K).
 
@@ -19,7 +19,8 @@ With a single coupling channel (f_D = 0, so only s_D matters), K is a scalar
 and the stationary condition mu K = 1 is the static-gain graph condition
 used in those works. Here trans-depletion f_D D s_N adds a second channel,
 so K is 2x2. The zero set {det(I - mu K) = 0} equals {G(mu) = 1}
-(control/state_space.py). Both criteria test only the zero-frequency loop.
+(control/state_space.py). This determinant tests only the zero-frequency loop;
+the cited graph-based theorems have additional assumptions and conclusions.
 """
 
 from __future__ import annotations

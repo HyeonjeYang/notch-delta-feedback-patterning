@@ -70,7 +70,7 @@ from it. `model/fixed_point.py` finds the root by Brent bracketing on `[0, lam_D
 
 The v1 code used a multistart `scipy.optimize.root` search and reported "no positive fixed
 point" when every start failed. In the 4000-point global sample that happened at 733 points.
-All 733 have an equilibrium (residual at most 3e-15). Corrected statistics are listed in
+All 733 have an equilibrium (residual normalised by `max(1, ||x*||_inf)`). Corrected statistics are listed in
 `docs/MANUSCRIPT_NUMBERS.md`.
 
 ## Proposition 2: the open loop is stable for every mode, so the static gain counts eigenvalue parity
@@ -114,7 +114,8 @@ standard. With `det(A_mu) a_S > 0` from (a):
 
 **(c) Complete per-mode test.** The open loop has no right-half-plane poles (from (a), and
 `a_S < 0`). By the Nyquist criterion, the number of right-half-plane eigenvalues of `J_mu`
-equals the number of clockwise encirclements of `+1` by `L_mu(i omega)`, `omega` in `R`.
+equals the number of clockwise encirclements of `+1` by `L_mu(i omega)`, `omega` in `R`,
+provided no closed-loop eigenvalue lies on the imaginary axis.
 `G(mu)` is the `omega = 0` point of this curve.
 
 In the global sample, the static test and the full eigenvalue count disagree at 12 points.
@@ -152,9 +153,11 @@ Consequence: along any parameter path that starts at a stable homogeneous state,
 this is the three-sublattice mode. On a bipartite graph, where `mu_min = -z`, it is the
 checkerboard. Non-stationary instabilities are not covered by this argument. A search of 40 000
 further random parameter sets found none in which another nonuniform mode dominated or
-destabilised first (`scripts/mode_dominance_search.py`). The only other unstable mode found is
-the uniform mode, through a complex pair, at 45 of the 4000 global-sample points. All 45 also
-have an unstable three-sublattice mode.
+was unstable with K stable (`scripts/mode_dominance_search.py`). This search at sampled points
+does not track bifurcations along parameter paths. Subdominant nonuniform modes are also
+unstable at 1451 of the 4000 global-sample points. At P2, 21 distinct nonuniform graph
+eigenvalues have positive growth rates (Fig. S3). The uniform mode has an unstable complex
+pair at 45 of the 4000 points. All 45 also have an unstable three-sublattice mode.
 
 In a single-channel lateral-inhibition model (Collier et al. 1996; Arcak 2013), `G(mu)` is
 proportional to `-mu`, so this monotonicity holds trivially. Here it is not automatic. Cis
@@ -164,7 +167,7 @@ that the extra channels never move the selected mode at onset.
 
 ## Relation to graph input-output criteria
 
-Write `J_mu = J_loc + mu B C`, where `B` carries the neighbour sums `(s_D, s_N)` into the cell
+For nonsingular `J_loc`, write `J_mu = J_loc + mu B C`, where `B` carries the neighbour sums `(s_D, s_N)` into the cell
 and `C` reads out `(D, N)` (`control/graph_io.py`). Sylvester's identity gives
 
 ```
@@ -177,6 +180,11 @@ sets of `det(I - mu K)` and `1 - G(mu)` coincide, and the relative difference in
 `figures/data/graph_io_check.csv` is at most 1e-15. Both criteria test only the
 zero-frequency loop. The `S`-partition used here is convenient because it factors the gain into
 named biochemical stages. It does not detect anything the graph I/O form misses.
+This algebraic identity does not establish the monotonicity or globally stable single-cell
+response assumptions in the cited graph-based theorems. Those theorems also address existence
+and stability of patterned equilibria under their assumptions; they are not restricted to
+checking a determinant. Their normalised contact matrix has eigenvalues `mu/z` on a regular
+graph, with a corresponding factor `z` in the input gain.
 
 ## Proposition 4: matched reductions share every equilibrium and the stationary boundary
 
@@ -194,11 +202,15 @@ and the prefactors are nonzero. So for every `mu` the full and reduced models ac
 eigenvalue at exactly the same parameters. They share the stationary boundary, the critical
 `lam_N`, and the selected mode at onset. Their spectra are otherwise different. They differ in
 growth rates and in instabilities that do not pass through a zero eigenvalue.
+The shared zero-eigenvalue set is an actual stability boundary only if an oscillatory
+instability has not already intervened.
 
 In the global sample the DNA reduction is unstable at every point where the full model is
 unstable. It is also unstable at 26 further points, all with `G(-3) < 1`. Where both are unstable,
 its growth rate is larger at every point, by a median factor of 4.9. The DN reduction has 47
-extra instabilities and a median factor of 216.
+extra instabilities and a median factor of 216. Equality of equilibrium sets does not imply
+equality of their stability or basins. The common final P2 pattern is a numerical observation
+for the specified initial states, not a general nonlinear equivalence theorem.
 
 ## Proposition 5: the proneural timescale sets the growth rate, not the onset
 
@@ -210,10 +222,26 @@ relaxation rate of `S` changes. Two limits follow:
   together with one eigenvalue near `-alpha d_S`.
 * `alpha -> 0`: `S` is slowest. The plant relaxes to `z = -A_mu^{-1} b S`, so
   `dS/dt = (a_S - c^T A_mu^{-1} b) S = a_S [1 - G(mu)] S`. The growth rate is therefore
-  `lambda_mu ~ d_S [G(mu) - 1]`. The sign is fixed by the static gain and the magnitude by
-  proneural turnover.
+  `lambda_mu ~ alpha d_S^(0) [G(mu) - 1]`, where `d_S^(0)` denotes the unscaled rate.
+  This is the slow eigenvalue for small `alpha`; it is not a general finite-timescale
+  stability criterion when `G < 1`.
 
 At P2 (`lam_N = 2`, `alpha = 1`): `G(-3) = 1.809` and `lambda = 0.103`. The slow-S estimate
 gives 0.081, the DNA reduction gives 1.597 (15.5 times faster), and the DN reduction gives 11.28
 (109 times). Across `alpha` in `[1e-2, 1e4]`, `lam_N^c = 1.304815342591` in every case, while the
 P2 growth rate ranges from 8.1e-4 to 1.59 (`scripts/timescale_family.py`).
+
+## Independent sampling robustness
+
+`manuscript/robustness_supplement.md` reports a protocol fixed before 115000 new evaluations.
+Ten original-box LHS replicates of 4000 points give a mean nonuniform-instability fraction
+37.37% (approximate 95% Monte Carlo interval across replicates 37.07–37.67%). The pooled
+DNA/full median growth ratio is 5.41. Sample-size checks and a wider box retain the direction
+of the dynamic bias while changing its magnitude. The wider-box mean unstable fraction is
+28.89%, with DNA replicate medians 2.99–3.64.
+
+No reduction-missed full instability, slower reduced growth, faster competing nonuniform
+mode or failure of the static-gain ordering was found in those samples. Dynamic ordering
+remains an empirical result over the stated measures, not an additional theorem. The one
+near-marginal full growth rate is reported explicitly and confirmed positive at 80-digit
+precision. Analytic propositions above retain their original mathematical scope.

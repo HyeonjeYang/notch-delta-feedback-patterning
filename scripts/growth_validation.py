@@ -7,12 +7,14 @@ Runs (adaptive DOP853, rtol=1e-9, atol=1e-11):
   full_P3        full model, lam_N = 5.623, exact-eigenvector initial state
   full_P3_v1ic   full model, lam_N = 5.623, v1 componentwise-scaled state
 
-Every run starts from relative Delta amplitude rel_amp = 1e-6 in the
-(m, n) = (8, 16) mu = -3 plane wave.
+The exact-eigenvector runs start from relative Delta amplitude 1e-6 in the
+(m, n) = (8, 16) mu = -3 plane wave. The legacy comparison retains its
+original componentwise scaling, whose Delta amplitude is generally different.
 
 Fitting window, fixed before any run: from t = 0 to the first recorded time
 at which the K-mode amplitude of D reaches 1e-3 * D*. That is three decades
-of growth, all far inside the linear regime. The slope of ln a_D(t) over the
+of growth for the corrected initial state. The endpoint is trajectory-dependent;
+the amplitude rule is prespecified. The slope of ln a_D(t) over the
 window is compared with the leading eigenvalue of the corresponding
 Jacobian block.
 
@@ -65,13 +67,19 @@ def run(name: str, model: str, lam_N: float, ic: str, t_final: float):
     fp_m = fp[:n_sp]
     fields = (eigenmode_state if ic == "eigenmode" else v1_componentwise_state)(fp_m, v, REL_AMP)
     sol = integrate(pack(*fields), p, t_final=t_final, record_interval=0.25, model=model)
-    assert sol.success, sol.message
+    if not sol.success:
+        raise RuntimeError(sol.message)
 
     amps = np.array([[k_mode_amplitude(f) for f in unpack(y, n_sp)] for y in sol.y.T])
     ts = pd.DataFrame({"run": name, "time": sol.t, **{f"a_{s}": amps[:, i] for i, s in enumerate(SPECIES[:n_sp])}})
 
     rel = amps[:, 0] / fp[0]
-    end = int(np.argmax(rel >= WINDOW_END_REL_AMP)) if np.any(rel >= WINDOW_END_REL_AMP) else len(rel) - 1
+    reached = np.flatnonzero(rel >= WINDOW_END_REL_AMP)
+    if len(reached) == 0:
+        raise RuntimeError(f"{name}: prespecified growth-window threshold was not reached")
+    end = int(reached[0])
+    if end < 2 or np.any(amps[:end + 1, 0] <= 0):
+        raise RuntimeError(f"{name}: too few valid amplitude observations for fitting")
     win = slice(0, end + 1)
     slope = float(np.polyfit(sol.t[win], np.log(amps[win, 0]), 1)[0])
     pure = amps[0, 0] * np.exp(lam_pred * sol.t[win])
