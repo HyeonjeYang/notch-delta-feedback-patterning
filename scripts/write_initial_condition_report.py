@@ -120,7 +120,7 @@ def main():
         "Polygons show the contact topology, not measured cell shape. No noise is applied "
         "during any trajectory.](../figures/supplementary/FigS5_initial_condition_robustness.png){width=100%}\n"])
     target=ROOT/"manuscript/initial_condition_supplement.md"
-    target.write_text("\n".join(text)+"\n",encoding="utf-8")
+    target.write_text("\n".join(text).rstrip()+"\n",encoding="utf-8")
     print(f"wrote {target}")
 
 

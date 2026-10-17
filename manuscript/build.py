@@ -13,7 +13,10 @@ import subprocess
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SOURCES = ["manuscript_revised.md", "response_to_reviewers.md"]
+SOURCES = ["manuscript_revised.md", "response_to_reviewers.md", "robustness_supplement.md",
+           "initial_condition_supplement.md", "timestep_supplement.md", "qss_validity_supplement.md",
+           "recalibration_supplement.md", "geometry_supplement.md", "bifurcation_supplement.md",
+           "pattern_stability_supplement.md", "growth_prior_supplement.md", "mechanism_supplement.md"]
 
 
 def main() -> None:

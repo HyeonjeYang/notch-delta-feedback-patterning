@@ -25,7 +25,7 @@ from figures.style import AQUA, BLUE, CONTEXT, DATA_DIR, INK, INK_2, MUTED, ORAN
 
 G_FLOOR = 1e-4
 CLASSES = [("stable", CONTEXT, "o", 6, "stable (0 RHP)"),
-           ("stationary", BLUE, "o", 7, "stationary (1 RHP, $G>1$)"),
+           ("stationary", BLUE, "o", 7, "one real pole (1 RHP, $G>1$)"),
            ("two_eig_complex", ORANGE, "s", 26, "complex pair (2 RHP, $G<1$)"),
            ("two_eig_real", AQUA, "^", 30, "real pair (2 RHP, $G<1$)")]
 
@@ -37,7 +37,7 @@ def panel_A(ax, r):
         big = cls.startswith("two")
         ax.scatter(np.maximum(sub.G_minus3, G_FLOOR), sub.lambda_pattern, s=size, c=colour, marker=marker,
                    edgecolors="white" if big else "none", linewidths=0.6 if big else 0,
-                   alpha=1.0 if big else 0.55, zorder=4 if big else 2, label=f"{name}: {len(sub)}",
+                   alpha=1.0 if big else 0.65, zorder=4 if big else 2, label=f"{name}: {len(sub)}",
                    rasterized=not big)
     ax.axvline(1.0, color=INK_2, lw=0.9, ls="--")
     ax.axhline(0.0, color=INK_2, lw=0.9, ls="--")
@@ -46,7 +46,7 @@ def panel_A(ax, r):
     ax.set_xlabel(r"static loop gain $G(-3)$")
     ax.set_ylabel(r"$\lambda_{\rm pattern}$ (symlog)")
     ax.legend(loc="upper left", bbox_to_anchor=(-0.05, -0.25), fontsize=6.8, handletextpad=0.2, markerscale=1.1)
-    ax.set_title("Global sample (n = 4000)", loc="left")
+    ax.set_title("Reference sample (n = 4000)", loc="left")
 
 
 def panel_B(ax, ny):
@@ -63,7 +63,7 @@ def panel_B(ax, ny):
     ax.set_xlim(-0.5, 2.0); ax.set_ylim(-1.35, 1.35)
     ax.set_xlabel(r"Re $L_{-3}(i\omega)$"); ax.set_ylabel(r"Im $L_{-3}(i\omega)$")
     ax.legend(loc="upper left", bbox_to_anchor=(-0.05, -0.25), fontsize=6.8)
-    ax.set_title("Nyquist curves, $\\mu=-3$", loc="left")
+    ax.set_title("Nyquist test ($\\mu=-3$)", loc="left")
 
 
 def panel_C(ax, cases):
@@ -79,7 +79,7 @@ def panel_C(ax, cases):
     ax.set_xlabel(r"Re $s$ (right half-plane)"); ax.set_ylabel(r"Im $s$")
     ax.set_ylim(-0.32, 0.32)
     ax.legend(loc="upper left", bbox_to_anchor=(-0.05, -0.25), fontsize=6.8)
-    ax.set_title(r"Unstable points with $G<1$", loc="left")
+    ax.set_title("Missed unstable eigenvalues", loc="left")
 
 
 def main():
@@ -87,7 +87,7 @@ def main():
     r = pd.read_csv(DATA_DIR / "global_sample_results.csv")
     ny = pd.read_csv(DATA_DIR / "nyquist_examples.csv")
     cases = pd.read_csv(DATA_DIR / "two_eigenvalue_cases.csv")
-    fig, axes = plt.subplots(1, 3, figsize=(7.4, 2.6), gridspec_kw={"wspace": 0.45, "width_ratios": [1.15, 1, 1]})
+    fig, axes = plt.subplots(1, 3, figsize=(8.8, 3.0), gridspec_kw={"wspace": 0.58, "width_ratios": [1.15, 1, 1]})
     panel_A(axes[0], r); panel_B(axes[1], ny); panel_C(axes[2], cases)
     for ax, letter in zip(axes, "ABC"):
         panel_label(ax, letter, x=-0.26)

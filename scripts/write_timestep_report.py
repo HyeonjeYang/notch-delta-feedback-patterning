@@ -208,7 +208,7 @@ def main():
         "at zero. Horizontal dotted lines show prespecified accuracy targets, not "
         "biological confidence intervals.](../figures/supplementary/FigS6_timestep_audit.png){width=100%}\n"])
     path=ROOT/"manuscript/timestep_supplement.md"
-    path.write_text("\n".join(text)+"\n",encoding="utf-8")
+    path.write_text("\n".join(text).rstrip()+"\n",encoding="utf-8")
     print(f"wrote {path}")
 
 

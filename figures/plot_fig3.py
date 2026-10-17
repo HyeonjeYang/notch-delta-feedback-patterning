@@ -31,7 +31,7 @@ from model.params import LAM_N_P2, LAM_N_P3, P0
 def panel_A(ax, g):
     g = g.sort_values("dlnG_total", key=np.abs).reset_index(drop=True)
     y = np.arange(len(g))
-    ax.barh(y, g.dlnG_total, height=0.62, color="#d6d5ce", edgecolor="none", label="total")
+    ax.barh(y, g.dlnG_total, height=0.62, color="#DDE2E4", edgecolor="none", label="total")
     for col, colour, marker, name in [("via_kappa_D", BLUE, "o", r"via $\kappa_D$ (S$\to$D)"),
                                       ("via_T", ORANGE, "s", r"via $T_{-3}$ (D$\to$A)"),
                                       ("via_kappa_S", AQUA, "^", r"via $\kappa_S$ (A$\dashv$S)")]:
@@ -39,9 +39,10 @@ def panel_A(ax, g):
     ax.axvline(0, color=INK_2, lw=0.8)
     ax.set_yticks(y, [PARAM_TEX[p] for p in g.parameter])
     ax.grid(axis="y", visible=False)
+    ax.grid(axis="x", visible=True)
     ax.set_xlabel(r"$\partial \ln G(-3)\,/\,\partial \ln p$ at p0")
-    ax.legend(loc="lower right", handletextpad=0.3)
-    ax.set_title("Static loop gain: stage contributions", loc="left")
+    ax.legend(loc="lower right", handletextpad=0.3, fontsize=7)
+    ax.set_title("Contributions to static gain", loc="left")
 
 
 def panel_B(ax, g, s):
@@ -55,7 +56,7 @@ def panel_B(ax, g, s):
                         xytext=offsets.get(r.parameter, (4, 2)), textcoords="offset points", fontsize=7.5, color=INK)
     ax.set_xlabel(r"static: $\partial \ln G(-3)/\partial \ln p$")
     ax.set_ylabel(r"dynamic: $\partial \lambda_{\rm pattern}/\partial \ln p$")
-    ax.set_title(r"Static vs. growth-rate sensitivity", loc="left")
+    ax.set_title("Static and dynamic sensitivity", loc="left")
 
 
 def phase_map(ax, df, pair, xlabel, ylabel, marks):
@@ -82,7 +83,7 @@ def main():
     g = pd.read_csv(DATA_DIR / "stage_gain_sensitivity.csv")
     s = pd.read_csv(DATA_DIR / "local_sensitivity.csv")
     maps = pd.read_csv(DATA_DIR / "two_dimensional_phase_maps.csv")
-    fig, axes = plt.subplots(2, 2, figsize=(7.2, 6.2), gridspec_kw={"wspace": 0.6, "hspace": 0.42})
+    fig, axes = plt.subplots(2, 2, figsize=(8.5, 7.2), gridspec_kw={"wspace": 0.6, "hspace": 0.5})
     panel_A(axes[0, 0], g)
     panel_B(axes[0, 1], g, s)
     marks = [(1.0, P0.d_A, "o", "p0"), (LAM_N_P2, P0.d_A, "^", "P2"), (LAM_N_P3, P0.d_A, "s", "P3")]

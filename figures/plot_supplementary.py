@@ -31,7 +31,7 @@ def figure_S1():
     fam = pd.read_csv(DATA_DIR / "timescale_family.csv")
     k = int(np.argmin(np.abs(np.log(fam.alpha))))
     D_star = {"P2": float(fam.P2_D_star.iloc[k]), "P3": float(fam.P3_D_star.iloc[k])}
-    fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.8), gridspec_kw={"wspace": 0.3})
+    fig, axes = plt.subplots(1, 2, figsize=(8.4, 3.4), gridspec_kw={"wspace": 0.35})
     for ax, point, t_max in [(axes[0], "P2", 600), (axes[1], "P3", 300)]:
         for run, colour, lw, name in [(f"full_{point}", BLUE, 1.6, "exact eigenvector (this work)"),
                                       (f"full_{point}_v1ic", CONTEXT, 1.4, "componentwise-scaled (v1)")]:
@@ -65,7 +65,7 @@ def figure_S1():
 
 def figure_S2():
     one = pd.read_csv(DATA_DIR / "one_dimensional_scans.csv")
-    fig, axes = plt.subplots(3, 5, figsize=(7.4, 4.6), gridspec_kw={"wspace": 0.45, "hspace": 0.75})
+    fig, axes = plt.subplots(3, 5, figsize=(9.0, 5.7), gridspec_kw={"wspace": 0.55, "hspace": 0.8})
     for ax, name in zip(axes.flat, PARAM_NAMES):
         g = one[one.parameter == name].sort_values("value")
         ax.plot(g.value, g.nonuniform_max_re_lambda, "-", color=BLUE, lw=1.3)
@@ -85,7 +85,34 @@ def figure_S2():
     save(fig, "FigS2_one_parameter_continuations", supplementary=True)
 
 
+def figure_S3():
+    """Dominance does not imply that only one spatial mode is unstable."""
+    import dataclasses
+    from model.fixed_point import homogeneous_fixed_point
+    from model.jacobian import jacobian_block
+    from stability.mode_scan import UNIQUE_MU
+
+    p = dataclasses.replace(P0, lam_N=2)
+    fp = homogeneous_fixed_point(p)
+    lead = np.linalg.eigvals(np.stack([jacobian_block(mu, fp, p) for mu in UNIQUE_MU])).real.max(axis=1)
+    fig, ax = plt.subplots(figsize=(5.2, 3.2))
+    ax.axhspan(0, max(lead) * 1.15, color=BLUE, alpha=0.06)
+    ax.axhline(0, color=INK_2, lw=0.9, ls="--")
+    ax.plot(UNIQUE_MU, lead, "o-", color=BLUE, ms=3, lw=1.2)
+    ax.plot(UNIQUE_MU[0], lead[0], "o", color=BLUE, ms=7, mec="white", mew=0.8)
+    ax.annotate("fastest mode", (UNIQUE_MU[0], lead[0]), xytext=(-1.3, 0.095),
+                arrowprops=dict(arrowstyle="-", color=INK_2), fontsize=8)
+    n = int(((UNIQUE_MU < 6 - 1e-9) & (lead > 0)).sum())
+    ax.text(0.97, 0.90, f"{n} distinct nonuniform modes unstable", transform=ax.transAxes,
+            ha="right", fontsize=8, color=INK)
+    ax.set_xlabel(r"graph eigenvalue $\mu$")
+    ax.set_ylabel(r"leading Re $s$ of $J_\mu$")
+    ax.set_title(r"P2: dominant and subdominant spatial modes", loc="left")
+    save(fig, "FigS3_subdominant_modes", supplementary=True)
+
+
 if __name__ == "__main__":
     apply_style()
     figure_S1()
     figure_S2()
+    figure_S3()

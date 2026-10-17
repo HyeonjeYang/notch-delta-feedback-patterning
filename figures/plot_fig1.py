@@ -1,8 +1,7 @@
 """Figure 1: circuit, contact geometry, and the graph spectrum.
 
-Panel A is left empty on purpose: the author draws the circuit by hand
-(Notch-Delta-Figure-1.pptx) and lays it over this frame. The equations are
-in the main text, not in the figure. Panel D defines the graph eigenvalue mu
+Panel A is intentionally blank for the author's separately prepared circuit
+schematic. Equations remain in the main text. Panel D defines the graph eigenvalue mu
 and the plane-wave indices (m, n) used throughout.
 """
 
@@ -18,11 +17,11 @@ import numpy as np
 from matplotlib.colors import TwoSlopeNorm
 
 from figures.hex_plot import HEX_CAPTION_NOTE, draw_hex_cells, hexagon_offsets, sublattice_label
-from figures.style import BLUE, DIVERGING, INK, ORANGE, YELLOW, apply_style, panel_label, save
+from figures.style import DIVERGING, INK, ORANGE, apply_style, panel_label, save
 from geometry.graph_spectrum import circulant_eigenvalue
 from geometry.lattice import COLS, NEIGHBOR_OFFSETS, ROWS
 
-CELL_GREY, NEIGHBOUR = "#d6d5ce", "#f6c3ad"
+CELL_GREY, NEIGHBOUR = "#E6EAEB", "#F1C3A7"
 
 
 def panel_A(ax):
@@ -39,7 +38,7 @@ def panel_B(ax):
 
 def panel_C(ax):
     offsets = hexagon_offsets(4)
-    colours = {0: BLUE, 1: ORANGE, 2: YELLOW}
+    colours = {0: "#6DA3CE", 1: "#E59B73", 2: "#DEC05D"}
     draw_hex_cells(ax, offsets, [colours[sublattice_label(dr, dc)] for dr, dc in offsets])
     handles = [plt.Rectangle((0, 0), 1, 1, color=colours[i]) for i in range(3)]
     ax.legend(handles, ["sublattice 1", "sublattice 2", "sublattice 3"], loc="upper center",
@@ -64,12 +63,12 @@ def panel_D(ax):
     cb = plt.colorbar(im, ax=ax, fraction=0.046, pad=0.03, ticks=[-3, 0, 3, 6])
     cb.set_label(r"graph eigenvalue $\mu(m,n)$")
     cb.ax.grid(False)
-    ax.set_title(r"Spectrum of the contact graph ($24\times24$)", loc="left")
+    ax.set_title(r"Contact spectrum ($24\times24$)", loc="left")
 
 
 def main():
     apply_style()
-    fig, grid = plt.subplots(2, 2, figsize=(7.0, 6.6), gridspec_kw={"wspace": 0.3, "hspace": 0.35})
+    fig, grid = plt.subplots(2, 2, figsize=(8.0, 7.0), gridspec_kw={"wspace": 0.35, "hspace": 0.40})
     axes = list(grid.flat)
     panel_A(axes[0]); panel_B(axes[1]); panel_C(axes[2]); panel_D(axes[3])
     for ax, letter in zip(axes, "ABCD"):

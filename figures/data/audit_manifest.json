@@ -1,0 +1,226 @@
+{
+  "started_utc": "2026-10-17T10:35:20.168313+00:00",
+  "status": "complete",
+  "steps": [
+    "scripts/audit_revision.py",
+    "scripts/numerical_robustness.py"
+  ],
+  "python": "3.13.5",
+  "python_implementation": "CPython",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "machine": "AMD64",
+  "git_head": "b5cb2a6852918be3e10b9884eecd4a1d61d1478d",
+  "source_sha256_at_start": {
+    "control/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "control/graph_io.py": "086b7d6e2d763cea189810e16ddeed639a8333dec4eb77e0bc8a4aafc4fb2b25",
+    "control/root_locus.py": "d9dd0a9ce42fe300edf5e9476c0625269445439aa7c315de6a68f187ae70c71f",
+    "control/schur_verification.py": "eefa06cd27fd8b95095fdca8cb982ff1d20fac4cdcb1ea25900606189f063f16",
+    "control/state_space.py": "a411310958086319899a5311a2e0f5aba4e9599686de92411a32327e0bfb4e6f",
+    "figures/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "figures/hex_plot.py": "b0cddcce7e149e9da2637311f03e023384083a3dbd65d660194fc78859e1fce0",
+    "figures/plot_fig1.py": "0e48ad5f734659ef577c1a1cb1a0f8e15502bb531205d9953ef2a9ab72aa4e19",
+    "figures/plot_fig2.py": "41f987c4e0f0da4e726423a46bf8a2c77f625fc85bc845c03c2da34a1ed44176",
+    "figures/plot_fig3.py": "3fb50591297226214f4719d22a6b598533daae8a883674be828936d720dd38a6",
+    "figures/plot_fig4.py": "27ff9f083d9caf699ee13431b064562cc2475090ca102b9f698795bbe79f008e",
+    "figures/plot_fig5.py": "63d292311fd40fc1ccab91a0d528d65ddecb8c22b137de573f6c6d336d036f6e",
+    "figures/plot_supplementary.py": "29fa58ebbf79718b42e09f833ce09474161ebc4ab0fd4ae32652f2c968a19665",
+    "figures/style.py": "7b1b7620067f978c5a67bfdab52425a9648511b48673d0f6f7a306f7a7c17561",
+    "geometry/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "geometry/graph_spectrum.py": "46cb85db17f46b7bb56ec079fe9d724f0200d01ac905f60662e228e38d86692f",
+    "geometry/lattice.py": "71349939f311e2e68992bfb1d00def2b309a9d480007e1cfcde2d05f668131af",
+    "geometry/reciprocal_space.py": "bb7683ec21cbe122684efb9e4f8085180e94261e4a41db7731a88dfd85460bd3",
+    "model/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "model/equations.py": "ed89d3b2f0efb7d4b420d7747e37c59d47c7ed638fa82de3f81849e383feda12",
+    "model/fixed_point.py": "b021bc5742005455f842f0ba8eef7522a1cce7333f96e1cfced5826f9a23cf92",
+    "model/jacobian.py": "687710997ea06a0a4dc0592982e39cb19c62d1316ab911368ecd8e6f969d7b6a",
+    "model/metrics.py": "2e1b27d5bb75c6d1e8cc0532126fa437afef97855e28b26368313777bed1ce35",
+    "model/params.py": "b6f9008fe36b1f478f5ddbacd583ca60cf0ef57f10a80ed3dc7e9de9c1025275",
+    "model/reduced.py": "626c51c75817e2d8d1b500cd81e0b92f750c2ad45a5a36544470eafc2086cede",
+    "requirements-lock.txt": "f24a86b2acaeced7446f7e8347ee83a1a45ce4acbddc04e852b71ea086b8ee10",
+    "requirements.txt": "6b8e0a2d71d91e8bbfe257b903b81b487c2251484c985f2c1a30345e98a74ef0",
+    "scripts/audit_revision.py": "6bc3ae0b8eb211ce58584c1142c2ed078fd5362c738abcef635f4bd6ec6ead3f",
+    "scripts/global_sample.py": "e386afcedd3849c28d86d974d5e03250fa066a1d5a6a93ed554d8faeff02fffb",
+    "scripts/growth_validation.py": "a532a2020c5d50a8ae5470fba8f0f66d1d700e748778d7033d284608d36a7448",
+    "scripts/kinetic_control.py": "8cb66d1689b7e1c44508c15825d76f1a878e741b68e3f781f2fe1506fb8e0284",
+    "scripts/linear_analysis.py": "c77dced95e06f297fde10eb447825c4ed1cec07b908233301bde30177514c9a5",
+    "scripts/mode_dominance_search.py": "87eb5f7e8e81bec430e9f6598ad2c43645ec9addc6e3499878cb02c4818e9e86",
+    "scripts/numerical_robustness.py": "30bd73c0ae225cf359c228bf9b4044b2e102419252df07983b3691ff8d6b1290",
+    "scripts/nyquist_examples.py": "54fb501bdb571c561b95b302c3565e891d2c6fc06cf6510c8e0b056d72b34824",
+    "scripts/reproduce_all.py": "3357301a50b00b05b412ddc48eb88c71f374cfce5706dadf5f8229ea3d2e6607",
+    "scripts/reproducibility.py": "b3cb1e1d1c1a178785ca4990170c07b599d0e9bcc854473fbb15f770b390b137",
+    "scripts/timescale_family.py": "5bf54deb2d8fc3eef0eabae18653ff8d537859c76ee026766aab1a207f24fa98",
+    "scripts/verify_critical_point.py": "9bddcc2688eed052403cd5ab6216550432ca53da73104d8841b6c5192fa84c59",
+    "simulation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "simulation/nonlinear_ode.py": "776fe7ece8a6750d957b78458c6da8a77cd0e0ea3319a92cfdcdf545bd22e3ca",
+    "simulation/perturbation.py": "9cd0e1d3a7db6e7dfb0b04aa3b254215b7b764d579b8e1b6792c1fbcf4e883ac",
+    "stability/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stability/mode_scan.py": "90a709deb5fc924aad582bae03e14b774289cf7e34d1cb7534b40d58ac6118b8",
+    "stability/sensitivity.py": "057311405bfca6aa3220916feb9ff2d1838c2ba4309462065ba354740035cc72",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_core.py": "226ccfb459d923a5c771bc41ec6ea3d0306288d41235628a82919ef6b127ddf0",
+    "tests/test_hill_limits.py": "231da38ba491f316d99b4a703aebe27a8d9c4ee565f0da7f4b851dd5b6340d53"
+  },
+  "packages": {
+    "colorama": {
+      "expected": "0.4.6",
+      "actual": "0.4.6"
+    },
+    "contourpy": {
+      "expected": "1.3.3",
+      "actual": "1.3.3"
+    },
+    "cycler": {
+      "expected": "0.11.0",
+      "actual": "0.11.0"
+    },
+    "fonttools": {
+      "expected": "4.55.3",
+      "actual": "4.55.3"
+    },
+    "iniconfig": {
+      "expected": "1.1.1",
+      "actual": "1.1.1"
+    },
+    "kiwisolver": {
+      "expected": "1.4.8",
+      "actual": "1.4.8"
+    },
+    "matplotlib": {
+      "expected": "3.10.9",
+      "actual": "3.10.9"
+    },
+    "mpmath": {
+      "expected": "1.3.0",
+      "actual": "1.3.0"
+    },
+    "numpy": {
+      "expected": "2.2.6",
+      "actual": "2.2.6"
+    },
+    "packaging": {
+      "expected": "24.2",
+      "actual": "24.2"
+    },
+    "pandas": {
+      "expected": "3.0.3",
+      "actual": "3.0.3"
+    },
+    "pillow": {
+      "expected": "11.1.0",
+      "actual": "11.1.0"
+    },
+    "pluggy": {
+      "expected": "1.5.0",
+      "actual": "1.5.0"
+    },
+    "pyparsing": {
+      "expected": "3.2.0",
+      "actual": "3.2.0"
+    },
+    "pytest": {
+      "expected": "8.3.4",
+      "actual": "8.3.4"
+    },
+    "python-dateutil": {
+      "expected": "2.9.0.post0",
+      "actual": "2.9.0.post0"
+    },
+    "scipy": {
+      "expected": "1.16.3",
+      "actual": "1.16.3"
+    },
+    "six": {
+      "expected": "1.17.0",
+      "actual": "1.17.0"
+    },
+    "sympy": {
+      "expected": "1.13.3",
+      "actual": "1.13.3"
+    },
+    "tqdm": {
+      "expected": "4.67.1",
+      "actual": "4.67.1"
+    },
+    "tzdata": {
+      "expected": "2025.2",
+      "actual": "2025.2"
+    }
+  },
+  "blas": {
+    "name": "scipy-openblas",
+    "version": "0.3.29",
+    "openblas configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+  },
+  "thread_environment": {
+    "OMP_NUM_THREADS": "22",
+    "OPENBLAS_NUM_THREADS": null,
+    "MKL_NUM_THREADS": null
+  },
+  "frozen_global_parameters_sha256": "27c168743a16cea91e89b502a80e93e99c1b0566669129ba8b0617e4e2bd5ea5",
+  "random_protocols": {
+    "global": {
+      "seed": 20260817,
+      "n": 4000,
+      "sampler": "scipy.stats.qmc.LatinHypercube",
+      "api": "legacy seed=integer",
+      "scramble": true,
+      "strength": 1,
+      "optimization": null
+    },
+    "mode_search": {
+      "seed": 20261016,
+      "generator": "Generator(PCG64(seed))",
+      "n_per_box": 20000,
+      "box_order": [
+        1,
+        10
+      ],
+      "reset_between_boxes": false,
+      "sampling": "independent draws; rates log-uniform, Hill exponents uniform"
+    },
+    "nonlinear": "deterministic eigenvector initial state; no random seed"
+  },
+  "reproduction_contract": "Frozen inputs and numerical conclusions; floating-point outputs and PDF metadata need not be byte-identical.",
+  "finished_utc": "2026-10-17T10:36:13.373166+00:00",
+  "source_changed_during_run": false,
+  "artifact_sha256_at_end": {
+    "figures/data/audit_mode_scan.csv": "f9e6f78a6e67a459700c5f34e3fcd7b89cfc52bc8f1fc02cea6cf06a9c8b6b66",
+    "figures/data/critical_point.csv": "9bbe5ac2616e45e104227800db0cb8e88f750353c6c9843a08c56cf18505289c",
+    "figures/data/global_sample_parameters.csv": "27c168743a16cea91e89b502a80e93e99c1b0566669129ba8b0617e4e2bd5ea5",
+    "figures/data/global_sample_results.csv": "afa9c84c9795c0a9f705b4625d65a0ff1ad06a3a4a0b685c3eba79a3e47bf43e",
+    "figures/data/graph_io_check.csv": "7c493c92e1f1e920fefefc90564882ca68b5a2e45473741ac66f2f8893eba2c4",
+    "figures/data/growth_timeseries.csv": "3075df6fe70f73f6043e956eab54cc05a025c7a11470be09e7c77e870e9696b5",
+    "figures/data/growth_validation.csv": "988cc6e822c36108a4cba40ce82e9647a2804f52abef5176a9d797822a154b00",
+    "figures/data/local_sensitivity.csv": "581919976067e4a6b3620c55cd8a11c569b548c4b8a78c052750654f84088ac5",
+    "figures/data/loop_gain_spectrum.csv": "9462425d3c6f3e4a56083b24dc9d3a9ec41d842586e96d4e7ef9028b28326a3e",
+    "figures/data/mode_dominance_search.csv": "69b5c42facfb0c7b42192ea658d78fc8fe45636deba086b3508df8860aeeb35a",
+    "figures/data/mode_search_samples.csv.gz": "1a8158e3a312412e7916bd018cf5182cdd4b92b3a2cc89795987be8fddbfaf1e",
+    "figures/data/numerical_robustness.json": "cfc7d87d67f1e4d7c97cb3f3fdd5311ecd195a52386bdb9ae38ee5e042b31cdf",
+    "figures/data/nyquist_examples.csv": "5a9715c18cbe0635a6af68e44c8c8cf73071867ed2437ff89b816d128750b8bb",
+    "figures/data/one_dimensional_scans.csv": "cf738986b4936c6374cb9fdd56f51f21a074bafc1a1c941aafb94c2a219bcd7b",
+    "figures/data/pattern_final_fields.npz": "b1fbb9167331ba760c344f8b1333ea4bfd9868ed110afaa401a2cc9111364c35",
+    "figures/data/pole_continuation.csv": "942a62308908cfe9a720c822196305ff65193cf56fb091be9873ed97a236b8a6",
+    "figures/data/revision_audit.json": "7b3c50ed3c1aa6663761f3cf7e9b13ddcd3f0e2d110846c209361deb67cd430f",
+    "figures/data/schur_verification.csv": "25027ec5212fc79f944994605ca9a17cf2c672f62b79c140117dd807be4e5db8",
+    "figures/data/stage_gain_sensitivity.csv": "7baa088841ea03541c7a0a893e614b508c213156b9ffe57b1ace846b5ad1fe03",
+    "figures/data/timescale_family.csv": "7f801c69f4d1e6f5445fc4dfa74b4017242423e73aa8ca1cf8c149188560c631",
+    "figures/data/two_dimensional_phase_maps.csv": "b37de5952a6d50ec561975593dd846f463ded70343fd49c668f2c36bd48eb966",
+    "figures/data/two_eigenvalue_cases.csv": "185aa79c0e76ee5676a49ed1ec2a6c5d358202c8aa0bfe4320fdb24c6c0b668e",
+    "figures/main/Fig1_circuit_and_geometry.pdf": "1d1253abfaec475ef17a8a0a0bcc54629c52aa115ce11f4cce6bb88fd3b7700b",
+    "figures/main/Fig1_circuit_and_geometry.png": "1601eacba6f8a17ee9211f62b04134554a27d3f5c72b9217a08e69755c3e0e43",
+    "figures/main/Fig2_static_loop_gain.pdf": "6ee283e2b8d3f1338621772f2265a6f8788082dcee51748f635eff0809c34750",
+    "figures/main/Fig2_static_loop_gain.png": "883fb4dc9f0c0ea47d49d5409a392eac561f4e8f30428fae7300fe568058662b",
+    "figures/main/Fig3_kinetic_control.pdf": "28d3e361bd8d4e208af9f7aa1b607844f4820898a5e9cccc4178bf08c2d8eb1d",
+    "figures/main/Fig3_kinetic_control.png": "5e64a53c5d97f49c85ccb6c856cd8a53d015ef397b0f0f1933fed07b352cdffd",
+    "figures/main/Fig4_beyond_static_gain.pdf": "5ee94391e32abfac39e131e99ef7b06a4e694c6004356b74c82fa35c0a9b0182",
+    "figures/main/Fig4_beyond_static_gain.png": "5aad05753d64d40ceea974fc54b70a996ad1c14fe159bbb5c154ceb5437005a3",
+    "figures/main/Fig5_explicit_dynamics.pdf": "7c187e0351d52b84ba97a47f05e7b211dcac65e075801f852c91c2715dac515a",
+    "figures/main/Fig5_explicit_dynamics.png": "13369fb4aab400090251b2c8f77b2a621b2bea72c15d8de557af1930027a6252",
+    "figures/supplementary/FigS1_initial_state_comparison.pdf": "a816f09dc5d1a87b85e1015ff8d031b1fb0fdc08747f189b6dd829c7fa10b56b",
+    "figures/supplementary/FigS1_initial_state_comparison.png": "1cd94eb3b5b797950b75dafda257c07134f8369a19d68b40e6b62a8ae7fbd69b",
+    "figures/supplementary/FigS2_one_parameter_continuations.pdf": "e72f193ae9847534efe532ca35dab6a8228f96012945a8fed14de1470f049de9",
+    "figures/supplementary/FigS2_one_parameter_continuations.png": "db1a029ec25a00367a7ff62918301e0662a48c972ec94b06382d7691d5bbc249",
+    "figures/supplementary/FigS3_subdominant_modes.pdf": "37255871ce49bde15077d0794936490e359dbaa7a8d7ac3e0c323aa2f17892ed",
+    "figures/supplementary/FigS3_subdominant_modes.png": "834629ca3e516b725405a0dace3eeabab5291ee8e35d860b619fe03cdef0b7f4"
+  }
+}
