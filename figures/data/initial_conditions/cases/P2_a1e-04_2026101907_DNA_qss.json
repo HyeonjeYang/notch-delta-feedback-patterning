@@ -1,0 +1,26 @@
+{
+  "kernel_sha256": "b419a18be43367cc3ff661778b8fec31fa1cf8e82c8b920e9ab15dbf482b81b5",
+  "npz_sha256": "c8302ecbfafdcc7aedb6d7eab558537ef76a388f1c000f476a9b4a23568d8783",
+  "summary": {
+    "point": "P2",
+    "amplitude": 0.0001,
+    "seed": 2026101907,
+    "model": "DNA",
+    "downstream": "qss",
+    "tight": false,
+    "t_final": 600.0,
+    "onset_01": 4.61717426011191,
+    "onset_05": 5.5374136852778,
+    "final_cv": 1.543550263117858,
+    "final_k_fraction": 0.11015569582683973,
+    "final_scaled_rhs": 1.0367903341064403e-10,
+    "last10_D_change": 1.3650992696093443e-09,
+    "stationary_candidate": true,
+    "min_concentration": 0.00015649999536817538,
+    "linear_n": 2,
+    "linear_end": 0.5,
+    "linear_max_relative_D_error": 0.0002774448347623665,
+    "elapsed_seconds": 3.9938387000001967,
+    "nfev": 2947
+  }
+}

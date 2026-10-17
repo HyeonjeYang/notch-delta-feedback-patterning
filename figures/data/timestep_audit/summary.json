@@ -1,0 +1,35 @@
+{
+  "assessments": {
+    "adaptive_events": true,
+    "adaptive_fields": true,
+    "adaptive_k_fraction": true,
+    "adaptive_stationarity": true,
+    "fixed_growth": true,
+    "fixed_fields": false,
+    "output_cadence": true,
+    "positive_to_threshold": true,
+    "spectral_classifications": false
+  },
+  "all_assessments_pass": false,
+  "adaptive_runs": 70,
+  "fixed_lattice_runs": 16,
+  "spectral_comparisons": 1296,
+  "max_adaptive_event_relative_change": 0.0001631000513561841,
+  "max_final_relative_L2_all": 1.1133103395210476e-10,
+  "max_final_relative_L2_D": 1.1765193451563159e-10,
+  "max_k_fraction_abs_change": 4.022338018216942e-13,
+  "max_final_scaled_rhs": 5.4812515375543285e-09,
+  "min_accepted_or_RK_stage_concentration": 2.456092258121605e-10,
+  "max_RK4_relative_slope_error": 0.00010045059699459458,
+  "max_RK4_relative_D_perturbation_error": 0.00012530261156750181,
+  "max_cadence_relative_slope_change": 2.1047832594156546e-05,
+  "n_discrete_spectral_disagreements": 216,
+  "spectral_max_propagator_error_by_dt": {
+    "0.01": 3.8391355979835776e-08,
+    "0.02": 6.283681338183479e-07,
+    "0.04": 8.179263321503617e+45,
+    "0.08": 7.209272997096208e+55
+  },
+  "conclusions_scope": "14 representative initial states, not every seed or parameter sample; endpoint agreement does not prove attractor stability; finite-step convergence is not a mathematical exclusion of all numerical error",
+  "kernel_sha256": "bb11b7d01c41b6c4706d13cd901640ca478b71c7263317699ea8b4eb03e4e798"
+}

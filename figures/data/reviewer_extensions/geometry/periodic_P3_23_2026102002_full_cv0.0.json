@@ -1,0 +1,30 @@
+{
+  "kernel_sha256": "ffabdd1780ed4bfc2a8ddcbc072a43a023acb237ee4481dedff3676dc7e9168b",
+  "npz_sha256": "39b1d82af03a644f52d88716eb87d1b6dafc0a1cbddc0bdc7389649a9388d9c6",
+  "summary": {
+    "condition": "periodic",
+    "point": "P3",
+    "size": 23,
+    "seed": 2026102002,
+    "model": "full",
+    "heterogeneity_cv": 0.0,
+    "actual_heterogeneity_cv": 0.0,
+    "onset_01": 32.47313922829824,
+    "onset_is_homogeneous_instability_readout": true,
+    "final_cv": 1.6288616684904573,
+    "bulk_cv": 1.6068110322402913,
+    "boundary_cv": 1.6556091037587526,
+    "final_mean_D": 0.17672413574114212,
+    "final_min_D": 2.6165333204172075e-07,
+    "final_max_D": 0.7375640489074357,
+    "final_scaled_rhs": 6.229865217103838e-10,
+    "min_concentration": 2.6165333204172075e-07,
+    "graph_min_mu": -2.976480512801441,
+    "min_shell_multiplicity": 6,
+    "min_shell_power": 0.2894559220479404,
+    "near_K_band_power": 0.6528639355217478,
+    "graph_correlation": -0.3769032963051175,
+    "elapsed_seconds": 5.820531699999265,
+    "nfev": 5305
+  }
+}

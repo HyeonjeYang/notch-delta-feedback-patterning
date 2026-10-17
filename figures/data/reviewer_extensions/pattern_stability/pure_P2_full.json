@@ -1,0 +1,26 @@
+{
+  "kernel_sha256": "504b85dc007bd486663e14c0cffff7de25135069755b050cd9f17c7f37007275",
+  "source_sha256": "b1fbb9167331ba760c344f8b1333ea4bfd9868ed110afaa401a2cc9111364c35",
+  "npz_sha256": "39e6f4783939b9d1be006160857b64e0bb3f90a010bc030529f09bb238b31dcb",
+  "summary": {
+    "name": "pure_P2_full",
+    "point": "P2",
+    "model": "full",
+    "reason": "reconstructed pure-mode endpoint",
+    "seed": 2026102211,
+    "dimension": 2304,
+    "newton_residual": 9.604356962542292e-15,
+    "newton_iterations": 1,
+    "refinement_relative_change": 2.6058896387250275e-12,
+    "leading_real": -0.09901735720068729,
+    "leading_imag": 0.0,
+    "n_RHP": 0,
+    "n_near_imaginary_axis": 0,
+    "sparse_dense_leading_error": 6.161737786669619e-15,
+    "sparse_eigenpair_residual": 1.3556038965171968e-19,
+    "recovery_final_over_initial": 1.7098687637659615e-09,
+    "recovery_max_over_initial": 1.0,
+    "unperturbed_scaled_drift": 5.00226925132411e-16,
+    "elapsed_seconds": 58.664522700000816
+  }
+}

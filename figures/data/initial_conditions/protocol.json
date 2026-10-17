@@ -1,0 +1,59 @@
+{
+  "version": 2,
+  "seeds": [
+    2026101901,
+    2026101902,
+    2026101903,
+    2026101904,
+    2026101905,
+    2026101906,
+    2026101907,
+    2026101908
+  ],
+  "amplitudes": [
+    1e-06,
+    0.0001,
+    0.01
+  ],
+  "points": {
+    "P2": {
+      "lam_N": 2.0,
+      "t_final": 600.0
+    },
+    "P3": {
+      "lam_N": 5.623,
+      "t_final": 300.0
+    }
+  },
+  "lattice": [
+    24,
+    24
+  ],
+  "generator": "Generator(PCG64(seed))",
+  "random_fields": "four independent U[-1,1] fields; subtract each spatial mean; divide each by its max absolute value",
+  "main_pair": "same D,N,A fields x* (1+amplitude*xi); full S=S_q(A), DNA reconstructs that same S",
+  "downstream_control": "full S=S* (1+amplitude*xi_S) at amplitude 1e-4, same D,N,A as main pair",
+  "coupling": "same seed reuses fields across points and amplitudes; designs are paired, not independent samples",
+  "total_primary_runs": 112,
+  "solver": {
+    "method": "BDF with graph Jacobian sparsity",
+    "rtol": 1e-09,
+    "atol": 1e-11,
+    "record_interval": 0.5
+  },
+  "onset": "first upward continuous event std(D)/mean(D)=0.1; also record threshold 0.5; no crossing is censored at t_final",
+  "linear_validation": "exact all-mode matrix propagator of each model, initial prefix with max |x/x*-1| <= 1e-3; no slope fit",
+  "endpoint": "fixed horizon, not automatically a converged attractor",
+  "endpoint_metrics": [
+    "Delta CV",
+    "K power / nonuniform Delta power",
+    "max |dx/dt|/x*",
+    "last-10-time-unit Delta change / D*"
+  ],
+  "stationary_candidate_rule": "endpoint max |dx/dt|/x* < 1e-7, descriptive numerical criterion only",
+  "pair_metrics": "onset-time ratio; endpoint Delta correlation maximised over periodic translations, no rotations; min relative L2 field distance under translations",
+  "tight_checks": "first seed, amplitude 1e-6, both models at both points; BDF rtol=1e-11, atol=1e-14, recording=0.25, same fixed horizons",
+  "solver_check": "same four cases, DOP853 rtol=1e-11, atol=1e-14 until baseline CV=0.5 event plus 5 time units; compare onset events",
+  "protocol_history": "version 1 DOP853 pilot: one full P2 run completed; stiff DNA run interrupted for cost before a result was written. Solver changed to sparse BDF before production; design, thresholds and fixed horizons retained",
+  "scope": "two operating points, bounded perturbations near the homogeneous state; no stochastic forcing, tissue fit, global basin survey or global stability proof"
+}

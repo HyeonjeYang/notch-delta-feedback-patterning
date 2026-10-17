@@ -1,0 +1,26 @@
+{
+  "kernel_sha256": "504b85dc007bd486663e14c0cffff7de25135069755b050cd9f17c7f37007275",
+  "source_sha256": "8774b9ea171428091666af1e02bbcbd50f68c94938c8b0ec174b52db6cfcbef6",
+  "npz_sha256": "9910460d23e77b2b801b131f8482a9cf04eb9b953b1d6e4948381ad12b426da1",
+  "summary": {
+    "name": "P2_a1e-04_2026101905_DNA_qss",
+    "point": "P2",
+    "model": "DNA",
+    "reason": "largest recorded drift among distinct remaining endpoints",
+    "seed": 2026102205,
+    "dimension": 1728,
+    "newton_residual": 1.9208713925084583e-14,
+    "newton_iterations": 1,
+    "refinement_relative_change": 6.231829525295201e-11,
+    "leading_real": -0.09999999999997064,
+    "leading_imag": 0.0,
+    "n_RHP": 0,
+    "n_near_imaginary_axis": 0,
+    "sparse_dense_leading_error": 2.936539900133539e-14,
+    "sparse_eigenpair_residual": 6.64235422559523e-20,
+    "recovery_final_over_initial": 6.580760408093821e-10,
+    "recovery_max_over_initial": 1.0,
+    "unperturbed_scaled_drift": 3.3014977058739125e-15,
+    "elapsed_seconds": 6.431138399999327
+  }
+}

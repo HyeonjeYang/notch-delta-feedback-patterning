@@ -1,0 +1,26 @@
+{
+  "kernel_sha256": "504b85dc007bd486663e14c0cffff7de25135069755b050cd9f17c7f37007275",
+  "source_sha256": "ca4926ff9b2f6c6e7bc6703f90765cbc2e0d950a17ba29992a8eb7abf1581d12",
+  "npz_sha256": "662be8c21e499606b8a85d4cbea9c5deb26243345de47aa979ff700bfb6f83fb",
+  "summary": {
+    "name": "P3_a1e-04_2026101901_full_qss",
+    "point": "P3",
+    "model": "full",
+    "reason": "first seed, amplitude 1e-4",
+    "seed": 2026102204,
+    "dimension": 2304,
+    "newton_residual": 3.968240421490791e-13,
+    "newton_iterations": 1,
+    "refinement_relative_change": 2.0876549087634226e-11,
+    "leading_real": -0.09999867053133583,
+    "leading_imag": 0.0,
+    "n_RHP": 0,
+    "n_near_imaginary_axis": 0,
+    "sparse_dense_leading_error": 9.298117831235686e-16,
+    "sparse_eigenpair_residual": 1.3976225650768427e-18,
+    "recovery_final_over_initial": 1.8303798716314896e-09,
+    "recovery_max_over_initial": 1.0,
+    "unperturbed_scaled_drift": 8.680525922011106e-14,
+    "elapsed_seconds": 9.299063799999203
+  }
+}

@@ -1,0 +1,397 @@
+{
+  "total_primary_runs": 112,
+  "total_tight_checks": 4,
+  "groups": [
+    {
+      "point": "P2",
+      "amplitude": 1e-06,
+      "n": 8,
+      "full_onset_01": {
+        "median": 114.6957370599059,
+        "min": 112.55891769180329,
+        "max": 118.89788472888988
+      },
+      "DNA_onset_01": {
+        "median": 7.746216736244069,
+        "min": 7.631613996226407,
+        "max": 7.955435641554664
+      },
+      "onset_ratio": {
+        "median": 14.8100213360567,
+        "min": 14.696859013767353,
+        "max": 15.10064077249677
+      },
+      "aligned_correlation": {
+        "median": 0.7526810781106781,
+        "min": 0.5960290023122449,
+        "max": 0.8082408495320628
+      },
+      "aligned_relative_L2": {
+        "median": 0.5823205044455527,
+        "min": 0.5198660806533161,
+        "max": 0.7515721496635872
+      },
+      "full_k_fraction": {
+        "median": 0.2077736197634038,
+        "min": 0.012594495919810303,
+        "max": 0.42376186628010576
+      },
+      "DNA_k_fraction": {
+        "median": 0.10025205274916876,
+        "min": 0.026544406183067484,
+        "max": 0.3511268631415771
+      }
+    },
+    {
+      "point": "P2",
+      "amplitude": 0.0001,
+      "n": 8,
+      "full_onset_01": {
+        "median": 67.43190690436163,
+        "min": 65.75860624517334,
+        "max": 70.16433771125904
+      },
+      "DNA_onset_01": {
+        "median": 4.706743154467267,
+        "min": 4.61717426011191,
+        "max": 4.824079470132161
+      },
+      "onset_ratio": {
+        "median": 14.436083101028633,
+        "min": 14.229039848809325,
+        "max": 14.78158698354482
+      },
+      "aligned_correlation": {
+        "median": 0.7423157060996867,
+        "min": 0.5860700731152721,
+        "max": 0.8377924803361743
+      },
+      "aligned_relative_L2": {
+        "median": 0.5974439468757518,
+        "min": 0.476651683373165,
+        "max": 0.7505317999970833
+      },
+      "full_k_fraction": {
+        "median": 0.1508124496834276,
+        "min": 0.028902128995743574,
+        "max": 0.25727525004582424
+      },
+      "DNA_k_fraction": {
+        "median": 0.08177284325608482,
+        "min": 0.007826333370393781,
+        "max": 0.2309530129303292
+      }
+    },
+    {
+      "point": "P2",
+      "amplitude": 0.01,
+      "n": 8,
+      "full_onset_01": {
+        "median": 15.376310598679899,
+        "min": 14.522472880531078,
+        "max": 16.485368190636773
+      },
+      "DNA_onset_01": {
+        "median": 1.3478867636859002,
+        "min": 1.3250503363091988,
+        "max": 1.3919040262713978
+      },
+      "onset_ratio": {
+        "median": 11.333490429780792,
+        "min": 10.959940526472405,
+        "max": 11.843753505618789
+      },
+      "aligned_correlation": {
+        "median": 0.7334165574032353,
+        "min": 0.5843474823203022,
+        "max": 0.7741476874426876
+      },
+      "aligned_relative_L2": {
+        "median": 0.6112758962384022,
+        "min": 0.5644740537102639,
+        "max": 0.7777377805267068
+      },
+      "full_k_fraction": {
+        "median": 0.07338683421072167,
+        "min": 0.01383155174615757,
+        "max": 0.19695580843208563
+      },
+      "DNA_k_fraction": {
+        "median": 0.039594822522461326,
+        "min": 0.009156024987662196,
+        "max": 0.1560072700243353
+      }
+    },
+    {
+      "point": "P3",
+      "amplitude": 1e-06,
+      "n": 8,
+      "full_onset_01": {
+        "median": 54.885313505980506,
+        "min": 54.05019480121756,
+        "max": 56.47481863962932
+      },
+      "DNA_onset_01": {
+        "median": 4.272716325953683,
+        "min": 4.207253540561819,
+        "max": 4.402475940341818
+      },
+      "onset_ratio": {
+        "median": 12.843926331148795,
+        "min": 12.816836403901833,
+        "max": 12.895288628328665
+      },
+      "aligned_correlation": {
+        "median": 0.9268034580583142,
+        "min": 0.8844489026444337,
+        "max": 0.9527273500068079
+      },
+      "aligned_relative_L2": {
+        "median": 0.32123796431667095,
+        "min": 0.2588407133488483,
+        "max": 0.40614219115122047
+      },
+      "full_k_fraction": {
+        "median": 0.15586578995308362,
+        "min": 0.010445375845827692,
+        "max": 0.3508217598320678
+      },
+      "DNA_k_fraction": {
+        "median": 0.12438175957197203,
+        "min": 0.002258289093445018,
+        "max": 0.39495401764266175
+      }
+    },
+    {
+      "point": "P3",
+      "amplitude": 0.0001,
+      "n": 8,
+      "full_onset_01": {
+        "median": 32.43069808207414,
+        "min": 31.82995248089541,
+        "max": 33.38310167195444
+      },
+      "DNA_onset_01": {
+        "median": 2.539483143396038,
+        "min": 2.488358236246934,
+        "max": 2.6147980330231775
+      },
+      "onset_ratio": {
+        "median": 12.790954308148855,
+        "min": 12.750761920315993,
+        "max": 12.861356223221632
+      },
+      "aligned_correlation": {
+        "median": 0.9401790545901613,
+        "min": 0.8659567296040317,
+        "max": 0.9510955686848475
+      },
+      "aligned_relative_L2": {
+        "median": 0.29105353585418015,
+        "min": 0.2650029652222196,
+        "max": 0.4465306709965907
+      },
+      "full_k_fraction": {
+        "median": 0.11949653864691702,
+        "min": 0.012252060333763038,
+        "max": 0.1998987435135008
+      },
+      "DNA_k_fraction": {
+        "median": 0.10741351881809438,
+        "min": 0.00770794857271287,
+        "max": 0.20276254067916724
+      }
+    },
+    {
+      "point": "P3",
+      "amplitude": 0.01,
+      "n": 8,
+      "full_onset_01": {
+        "median": 7.719353159309339,
+        "min": 7.3479740953872685,
+        "max": 8.119357707496922
+      },
+      "DNA_onset_01": {
+        "median": 0.6194565031042484,
+        "min": 0.5954661922112183,
+        "max": 0.6480261890187664
+      },
+      "onset_ratio": {
+        "median": 12.431947662410476,
+        "min": 12.339867806938168,
+        "max": 12.529366629134476
+      },
+      "aligned_correlation": {
+        "median": 0.9193811560536529,
+        "min": 0.8701481353421685,
+        "max": 0.9386451528792937
+      },
+      "aligned_relative_L2": {
+        "median": 0.3442212640032678,
+        "min": 0.3004170173634723,
+        "max": 0.4393249789976559
+      },
+      "full_k_fraction": {
+        "median": 0.05955223349212635,
+        "min": 0.006765655060189107,
+        "max": 0.19763368978130624
+      },
+      "DNA_k_fraction": {
+        "median": 0.07417050498373862,
+        "min": 0.013516604345537456,
+        "max": 0.20154321607289902
+      }
+    }
+  ],
+  "n_onset_01_censored": 0,
+  "n_onset_05_censored": 0,
+  "n_stationary_candidates": 112,
+  "n_full_later": 48,
+  "n_main_pairs": 48,
+  "min_concentration": 2.191466472881287e-10,
+  "max_linear_relative_D_error": 0.0018002669848569363,
+  "tight_checks": [
+    {
+      "point": "P2",
+      "model": "full",
+      "onset_abs_difference": 0.005823826960124734,
+      "k_fraction_abs_difference": 1.4799272918253337e-13
+    },
+    {
+      "point": "P2",
+      "model": "DNA",
+      "onset_abs_difference": 0.00048037892042174235,
+      "k_fraction_abs_difference": 6.3352101342672995e-15
+    },
+    {
+      "point": "P3",
+      "model": "full",
+      "onset_abs_difference": 0.0029272830511288817,
+      "k_fraction_abs_difference": 3.9965253328944073e-13
+    },
+    {
+      "point": "P3",
+      "model": "DNA",
+      "onset_abs_difference": 0.0006897476881748688,
+      "k_fraction_abs_difference": 5.46229728115577e-14
+    }
+  ],
+  "solver_checks": [
+    {
+      "point": "P2",
+      "model": "full",
+      "t_final": 129.75,
+      "onset_01_difference": 0.005866606770311478,
+      "onset_05_difference": 0.005883242995054161,
+      "summary": {
+        "point": "P2",
+        "amplitude": 1e-06,
+        "seed": 2026101901,
+        "model": "full",
+        "downstream": "qss",
+        "tight": true,
+        "t_final": 129.75,
+        "onset_01": 113.8528026154518,
+        "onset_05": 124.56359878019842,
+        "final_cv": 2.24052274396815,
+        "final_k_fraction": 0.09651105115130562,
+        "final_scaled_rhs": 17.290887196902556,
+        "last10_D_change": 38.63174881106923,
+        "stationary_candidate": false,
+        "min_concentration": 0.029162706020705465,
+        "linear_n": 222,
+        "linear_end": 55.25,
+        "linear_max_relative_D_error": 0.0006735790231645466,
+        "elapsed_seconds": 1.974670600000536,
+        "nfev": 3950
+      }
+    },
+    {
+      "point": "P2",
+      "model": "DNA",
+      "t_final": 13.75,
+      "onset_01_difference": 0.0004838090942360651,
+      "onset_05_difference": 0.00048396699472874616,
+      "summary": {
+        "point": "P2",
+        "amplitude": 1e-06,
+        "seed": 2026101901,
+        "model": "DNA",
+        "downstream": "qss",
+        "tight": true,
+        "t_final": 13.75,
+        "onset_01": 7.687997347326443,
+        "onset_05": 8.626370075076782,
+        "final_cv": 1.6132590871058785,
+        "final_k_fraction": 0.057144475401200975,
+        "final_scaled_rhs": 25.358286260107832,
+        "last10_D_change": 104.24034715676994,
+        "stationary_candidate": false,
+        "min_concentration": 0.00016404919219151437,
+        "linear_n": 16,
+        "linear_end": 3.75,
+        "linear_max_relative_D_error": 0.00030310483676332535,
+        "elapsed_seconds": 0.700841699999728,
+        "nfev": 1601
+      }
+    },
+    {
+      "point": "P3",
+      "model": "full",
+      "t_final": 65.75,
+      "onset_01_difference": 0.002947150057345027,
+      "onset_05_difference": 0.0029835969048974675,
+      "summary": {
+        "point": "P3",
+        "amplitude": 1e-06,
+        "seed": 2026101901,
+        "model": "full",
+        "downstream": "qss",
+        "tight": true,
+        "t_final": 65.75,
+        "onset_01": 54.51838621255703,
+        "onset_05": 60.56547475101726,
+        "final_cv": 1.9980614181800156,
+        "final_k_fraction": 0.131379090755346,
+        "final_scaled_rhs": 6.719428900601556,
+        "last10_D_change": 28.026418693427384,
+        "stationary_candidate": false,
+        "min_concentration": 0.0015004672228811705,
+        "linear_n": 106,
+        "linear_end": 26.25,
+        "linear_max_relative_D_error": 0.00044321679460492024,
+        "elapsed_seconds": 4.714658000000782,
+        "nfev": 10634
+      }
+    },
+    {
+      "point": "P3",
+      "model": "DNA",
+      "t_final": 10.0,
+      "onset_01_difference": 0.0006922537015316976,
+      "onset_05_difference": 0.0006953149669755021,
+      "summary": {
+        "point": "P3",
+        "amplitude": 1e-06,
+        "seed": 2026101901,
+        "model": "DNA",
+        "downstream": "qss",
+        "tight": true,
+        "t_final": 10.0,
+        "onset_01": 4.245019007882522,
+        "onset_05": 4.782931982610949,
+        "final_cv": 1.5828011251708516,
+        "final_k_fraction": 0.10939792532241678,
+        "final_scaled_rhs": 2.868639471792827,
+        "last10_D_change": 34.81966013451131,
+        "stationary_candidate": false,
+        "min_concentration": 2.5095268223563184e-10,
+        "linear_n": 9,
+        "linear_end": 2.0,
+        "linear_max_relative_D_error": 0.0002844462029359488,
+        "elapsed_seconds": 1.4804537999989407,
+        "nfev": 3968
+      }
+    }
+  ]
+}

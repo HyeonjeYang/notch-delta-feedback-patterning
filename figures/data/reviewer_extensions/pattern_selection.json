@@ -1,0 +1,74 @@
+[
+  {
+    "name": "P2_a1e-04_2026101901_DNA_qss",
+    "point": "P2",
+    "model": "DNA",
+    "reason": "first seed, amplitude 1e-4"
+  },
+  {
+    "name": "P2_a1e-04_2026101901_full_qss",
+    "point": "P2",
+    "model": "full",
+    "reason": "first seed, amplitude 1e-4"
+  },
+  {
+    "name": "P3_a1e-04_2026101901_DNA_qss",
+    "point": "P3",
+    "model": "DNA",
+    "reason": "first seed, amplitude 1e-4"
+  },
+  {
+    "name": "P3_a1e-04_2026101901_full_qss",
+    "point": "P3",
+    "model": "full",
+    "reason": "first seed, amplitude 1e-4"
+  },
+  {
+    "name": "P2_a1e-04_2026101905_DNA_qss",
+    "point": "P2",
+    "model": "DNA",
+    "reason": "largest recorded drift among distinct remaining endpoints"
+  },
+  {
+    "name": "P2_a1e-06_2026101904_full_qss",
+    "point": "P2",
+    "model": "full",
+    "reason": "largest recorded drift among distinct remaining endpoints"
+  },
+  {
+    "name": "P3_a1e-04_2026101903_DNA_qss",
+    "point": "P3",
+    "model": "DNA",
+    "reason": "largest recorded drift among distinct remaining endpoints"
+  },
+  {
+    "name": "P3_a1e-06_2026101908_full_qss",
+    "point": "P3",
+    "model": "full",
+    "reason": "largest recorded drift among distinct remaining endpoints"
+  },
+  {
+    "name": "P2_a1e-04_2026101902_full_free",
+    "point": "P2",
+    "model": "full",
+    "reason": "free-S control: largest final_k_fraction"
+  },
+  {
+    "name": "P3_a1e-04_2026101907_full_free",
+    "point": "P3",
+    "model": "full",
+    "reason": "free-S control: largest final_scaled_rhs"
+  },
+  {
+    "name": "pure_P2_full",
+    "point": "P2",
+    "model": "full",
+    "reason": "reconstructed pure-mode endpoint"
+  },
+  {
+    "name": "pure_P2_DNA",
+    "point": "P2",
+    "model": "DNA",
+    "reason": "reconstructed pure-mode endpoint"
+  }
+]

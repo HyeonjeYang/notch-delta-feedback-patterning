@@ -1,0 +1,26 @@
+{
+  "kernel_sha256": "504b85dc007bd486663e14c0cffff7de25135069755b050cd9f17c7f37007275",
+  "source_sha256": "11182e74825f7bf939271b5eedbde010e9b225874b4aee0382e96be76eff19d1",
+  "npz_sha256": "cbdaf5db60f153d4444f6c0a65a806380400b25e4afd948a4926b4de4fa4e370",
+  "summary": {
+    "name": "P3_a1e-04_2026101907_full_free",
+    "point": "P3",
+    "model": "full",
+    "reason": "free-S control: largest final_scaled_rhs",
+    "seed": 2026102210,
+    "dimension": 2304,
+    "newton_residual": 2.4801502634317445e-13,
+    "newton_iterations": 1,
+    "refinement_relative_change": 3.8724199131372654e-11,
+    "leading_real": -0.09999851553820369,
+    "leading_imag": 0.0,
+    "n_RHP": 0,
+    "n_near_imaginary_axis": 0,
+    "sparse_dense_leading_error": 2.7200464103316335e-15,
+    "sparse_eigenpair_residual": 2.8382789552737953e-18,
+    "recovery_final_over_initial": 1.786820059291814e-09,
+    "recovery_max_over_initial": 1.0,
+    "unperturbed_scaled_drift": 3.720225395147617e-14,
+    "elapsed_seconds": 9.115709299998343
+  }
+}

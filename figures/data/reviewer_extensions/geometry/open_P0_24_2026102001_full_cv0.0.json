@@ -1,0 +1,30 @@
+{
+  "kernel_sha256": "ffabdd1780ed4bfc2a8ddcbc072a43a023acb237ee4481dedff3676dc7e9168b",
+  "npz_sha256": "6a132fb5cd5db5a5773820f3a69dfa604518bf6303c3757f60fbb2ac1bb5342b",
+  "summary": {
+    "condition": "open",
+    "point": "P0",
+    "size": 24,
+    "seed": 2026102001,
+    "model": "full",
+    "heterogeneity_cv": 0.0,
+    "actual_heterogeneity_cv": 0.0,
+    "onset_01": NaN,
+    "onset_is_homogeneous_instability_readout": false,
+    "final_cv": 0.06983299768217659,
+    "bulk_cv": 0.00020219940853110732,
+    "boundary_cv": 0.09324691715137884,
+    "final_mean_D": 29.28600107017994,
+    "final_min_D": 27.3156389160419,
+    "final_max_D": 42.84524011851837,
+    "final_scaled_rhs": 6.202764095715184e-11,
+    "min_concentration": 0.008140518379597773,
+    "graph_min_mu": NaN,
+    "min_shell_multiplicity": 0,
+    "min_shell_power": NaN,
+    "near_K_band_power": NaN,
+    "graph_correlation": 0.21949819598845224,
+    "elapsed_seconds": 4.404353499998251,
+    "nfev": 3378
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "kernel_sha256": "b419a18be43367cc3ff661778b8fec31fa1cf8e82c8b920e9ab15dbf482b81b5",
+  "npz_sha256": "336cb695a333a2b249bc873617de8c039198a369504a728b2a73f03e962be0b3",
+  "summary": {
+    "point": "P2",
+    "amplitude": 0.0001,
+    "seed": 2026101907,
+    "model": "full",
+    "downstream": "qss",
+    "tight": false,
+    "t_final": 600.0,
+    "onset_01": 65.75860624517334,
+    "onset_05": 76.76890505971657,
+    "final_cv": 1.537338825975473,
+    "final_k_fraction": 0.1357817473616102,
+    "final_scaled_rhs": 1.3193483291657886e-10,
+    "last10_D_change": 5.121299248613218e-10,
+    "stationary_candidate": true,
+    "min_concentration": 0.01772990292859471,
+    "linear_n": 6,
+    "linear_end": 2.5,
+    "linear_max_relative_D_error": 0.00025143532157737773,
+    "elapsed_seconds": 6.406814899999517,
+    "nfev": 3950
+  }
+}

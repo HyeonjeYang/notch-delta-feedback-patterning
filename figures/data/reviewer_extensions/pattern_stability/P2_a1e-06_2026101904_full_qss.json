@@ -1,0 +1,26 @@
+{
+  "kernel_sha256": "504b85dc007bd486663e14c0cffff7de25135069755b050cd9f17c7f37007275",
+  "source_sha256": "8b1f237619b9ab61d6ac1aa21844426bf212466af4e9099a332981c9823b0d94",
+  "npz_sha256": "e5bce30ce6999c81298d7d83fe4d9dd78083025dcec3a0f1b56806f039012faa",
+  "summary": {
+    "name": "P2_a1e-06_2026101904_full_qss",
+    "point": "P2",
+    "model": "full",
+    "reason": "largest recorded drift among distinct remaining endpoints",
+    "seed": 2026102206,
+    "dimension": 2304,
+    "newton_residual": 2.241016624593201e-14,
+    "newton_iterations": 1,
+    "refinement_relative_change": 4.995790319025674e-12,
+    "leading_real": -0.09771292050360944,
+    "leading_imag": 0.0,
+    "n_RHP": 0,
+    "n_near_imaginary_axis": 0,
+    "sparse_dense_leading_error": 3.70536934468646e-15,
+    "sparse_eigenpair_residual": 5.822551728261099e-20,
+    "recovery_final_over_initial": 1.5732238319732226e-09,
+    "recovery_max_over_initial": 1.0,
+    "unperturbed_scaled_drift": 1.2005446203177864e-15,
+    "elapsed_seconds": 9.72512319999987
+  }
+}

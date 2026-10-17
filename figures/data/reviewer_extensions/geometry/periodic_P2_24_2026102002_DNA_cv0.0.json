@@ -1,0 +1,30 @@
+{
+  "kernel_sha256": "ffabdd1780ed4bfc2a8ddcbc072a43a023acb237ee4481dedff3676dc7e9168b",
+  "npz_sha256": "25295cbc3b34d38ea3d846c636bdfd0db6d947357a183bbaebd3834cac97c4ba",
+  "summary": {
+    "condition": "periodic",
+    "point": "P2",
+    "size": 24,
+    "seed": 2026102002,
+    "model": "DNA",
+    "heterogeneity_cv": 0.0,
+    "actual_heterogeneity_cv": 0.0,
+    "onset_01": 4.7519439795075575,
+    "onset_is_homogeneous_instability_readout": true,
+    "final_cv": 1.603611582743377,
+    "bulk_cv": 1.6036089483538372,
+    "boundary_cv": 1.6036148365219798,
+    "final_mean_D": 7.327329686500586,
+    "final_min_D": 0.039612234857662645,
+    "final_max_D": 27.224195884677894,
+    "final_scaled_rhs": 5.4424689454406315e-14,
+    "min_concentration": 0.00021576905576411502,
+    "graph_min_mu": -3.0,
+    "min_shell_multiplicity": 2,
+    "min_shell_power": 0.03531190784019993,
+    "near_K_band_power": 0.45179973993549594,
+    "graph_correlation": -0.38398005143263886,
+    "elapsed_seconds": 8.671828199998345,
+    "nfev": 5885
+  }
+}

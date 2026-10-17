@@ -1,0 +1,186 @@
+{
+  "version": 1,
+  "scope": "time discretisation and arithmetic, not a spatial continuum limit or biological validation",
+  "reference_inputs": "existing first-seed lattice fields; all three amplitudes and both points/models; two independent-S controls",
+  "lattice_cases": [
+    [
+      "P2",
+      1e-06,
+      2026101901,
+      "full",
+      "qss"
+    ],
+    [
+      "P2",
+      1e-06,
+      2026101901,
+      "DNA",
+      "qss"
+    ],
+    [
+      "P2",
+      0.0001,
+      2026101901,
+      "full",
+      "qss"
+    ],
+    [
+      "P2",
+      0.0001,
+      2026101901,
+      "DNA",
+      "qss"
+    ],
+    [
+      "P2",
+      0.01,
+      2026101901,
+      "full",
+      "qss"
+    ],
+    [
+      "P2",
+      0.01,
+      2026101901,
+      "DNA",
+      "qss"
+    ],
+    [
+      "P2",
+      0.0001,
+      2026101901,
+      "full",
+      "free"
+    ],
+    [
+      "P3",
+      1e-06,
+      2026101901,
+      "full",
+      "qss"
+    ],
+    [
+      "P3",
+      1e-06,
+      2026101901,
+      "DNA",
+      "qss"
+    ],
+    [
+      "P3",
+      0.0001,
+      2026101901,
+      "full",
+      "qss"
+    ],
+    [
+      "P3",
+      0.0001,
+      2026101901,
+      "DNA",
+      "qss"
+    ],
+    [
+      "P3",
+      0.01,
+      2026101901,
+      "full",
+      "qss"
+    ],
+    [
+      "P3",
+      0.01,
+      2026101901,
+      "DNA",
+      "qss"
+    ],
+    [
+      "P3",
+      0.0001,
+      2026101901,
+      "full",
+      "free"
+    ]
+  ],
+  "n_lattice_cases": 14,
+  "adaptive_configs": [
+    {
+      "name": "BDF_h0.5",
+      "method": "BDF",
+      "max_step": 0.5,
+      "rtol": 1e-09,
+      "atol": 1e-11
+    },
+    {
+      "name": "BDF_h0.25",
+      "method": "BDF",
+      "max_step": 0.25,
+      "rtol": 1e-09,
+      "atol": 1e-11
+    },
+    {
+      "name": "BDF_h0.125",
+      "method": "BDF",
+      "max_step": 0.125,
+      "rtol": 1e-09,
+      "atol": 1e-11
+    },
+    {
+      "name": "BDF_tight",
+      "method": "BDF",
+      "max_step": 0.125,
+      "rtol": 1e-11,
+      "atol": 1e-14
+    },
+    {
+      "name": "Radau_tight",
+      "method": "Radau",
+      "max_step": 0.25,
+      "rtol": 1e-11,
+      "atol": 1e-14
+    }
+  ],
+  "adaptive_total_runs": 70,
+  "adaptive_horizons": {
+    "P2": 600.0,
+    "P3": 300.0
+  },
+  "baseline": "previous BDF runs with no max_step bound, rtol=1e-9, atol=1e-11",
+  "adaptive_readout": "first upward CV(D)=0.1 and 0.5 events; final raw cellwise fields, CV, K fraction and scaled drift; actual accepted internal step sizes",
+  "fixed_rk4_dt": [
+    0.08,
+    0.04,
+    0.02,
+    0.01
+  ],
+  "fixed_total_lattice_runs": 16,
+  "fixed_initialisation": "own exact K eigenvector; D amplitude 1e-6 D*, no concentration clipping",
+  "fixed_compare_times": "every 0.08 time units shared by all fixed dt runs and the high-accuracy Radau reference",
+  "fixed_growth_window": "same common times no later than log(1000)/leading_eigenvalue, independent of each computed trajectory",
+  "fixed_reference": "Radau rtol=1e-12, atol=1e-15, max_step=0.01 through the early growth horizon; not a long-time endpoint test",
+  "fixed_growth_horizons": {
+    "P2_full": 70.4,
+    "P2_DNA": 4.8,
+    "P3_full": 32.8,
+    "P3_DNA": 2.72
+  },
+  "matrix_propagator_test": "P0/P2/P3, full/DNA, every distinct graph eigenvalue: RK4 stability polynomial eigenvalues versus continuous spectrum; matrix-power propagator at t=2 versus expm(2J)",
+  "output_cadence": [
+    0.5,
+    0.25,
+    0.125
+  ],
+  "cadence_test": "resample the identical dense Radau solution; first-recorded-amplitude growth-window rule from the reference manuscript; internal steps unchanged",
+  "assessment_thresholds": {
+    "adaptive_event_relative_change": 0.001,
+    "adaptive_final_relative_L2_all_species": 0.0001,
+    "adaptive_final_k_abs_change": 1e-05,
+    "adaptive_stationary_scaled_drift": 1e-07,
+    "fixed_growth_relative_error_vs_eigenvalue": 0.0005,
+    "fixed_relative_D_perturbation_error_vs_Radau": 0.0001,
+    "cadence_relative_slope_change": 0.0001,
+    "minimum_accepted_concentration": -1e-10
+  },
+  "assessment": "thresholds fixed before new runs; violations are retained and reported, never removed or relabelled as nonexistence",
+  "limits": "14 representative initial states, not every seed or parameter sample; endpoint agreement does not prove attractor stability; finite-step convergence is not a mathematical exclusion of all numerical error"
+}

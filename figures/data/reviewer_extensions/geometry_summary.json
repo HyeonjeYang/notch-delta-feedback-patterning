@@ -1,0 +1,28 @@
+{
+  "kernel_sha256": "ffabdd1780ed4bfc2a8ddcbc072a43a023acb237ee4481dedff3676dc7e9168b",
+  "runs": 52,
+  "periodic_main_pairs": 18,
+  "max_scaled_endpoint_drift": 7.540902648128852e-10,
+  "n_negative_recorded": 0,
+  "critical": [
+    {
+      "size": 23,
+      "min_mu": -2.976480512801441,
+      "min_mu_multiplicity": 6,
+      "stationary_lam_N": 1.3081136526435846
+    },
+    {
+      "size": 24,
+      "min_mu": -3.0,
+      "min_mu_multiplicity": 2,
+      "stationary_lam_N": 1.3048153425910518
+    },
+    {
+      "size": 25,
+      "min_mu": -2.97796514575767,
+      "min_mu_multiplicity": 6,
+      "stationary_lam_N": 1.3079029382224787
+    }
+  ],
+  "note": "Open/heterogeneous onset contrast includes deterministic forcing and is not a homogeneous-instability threshold."
+}

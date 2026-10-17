@@ -1,0 +1,26 @@
+{
+  "kernel_sha256": "504b85dc007bd486663e14c0cffff7de25135069755b050cd9f17c7f37007275",
+  "source_sha256": "ca8fec2a1b3fcb67949c591136e1f5ecb1a591b4d3eb3d0dfa81831909a970eb",
+  "npz_sha256": "2c81c8f25bb5c73e5bbe213bdc8992f8cb3c11a185001838890393ee6950123f",
+  "summary": {
+    "name": "P2_a1e-04_2026101902_full_free",
+    "point": "P2",
+    "model": "full",
+    "reason": "free-S control: largest final_k_fraction",
+    "seed": 2026102209,
+    "dimension": 2304,
+    "newton_residual": 5.4898579489741e-12,
+    "newton_iterations": 0,
+    "refinement_relative_change": 0.0,
+    "leading_real": -0.09765732642592144,
+    "leading_imag": 0.0,
+    "n_RHP": 0,
+    "n_near_imaginary_axis": 0,
+    "sparse_dense_leading_error": 1.249000902703301e-16,
+    "sparse_eigenpair_residual": 7.099650514712896e-20,
+    "recovery_final_over_initial": 1.4343439124625612e-09,
+    "recovery_max_over_initial": 1.0,
+    "unperturbed_scaled_drift": 5.529467313685313e-11,
+    "elapsed_seconds": 9.857727099999465
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "adaptive_production_checks_pass": true,
+  "fixed_fields_at_h_001_pass": true,
+  "finer_spectral_counts_agree": true,
+  "coarse_fixed_field_accuracy_failures": [
+    {
+      "point": "P3",
+      "model": "DNA",
+      "dt": 0.08,
+      "max_relative_D_perturbation_error": 0.0001253026115675
+    }
+  ],
+  "reintegrated_main_pairs": 30,
+  "full_later_in_reintegrated_pairs": 30,
+  "original_all_assessments_pass": false,
+  "explanation": "Original coarse-step failures are retained; they do not describe the adaptive production settings. No target was relaxed."
+}

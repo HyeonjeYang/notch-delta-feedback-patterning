@@ -1,0 +1,26 @@
+{
+  "kernel_sha256": "504b85dc007bd486663e14c0cffff7de25135069755b050cd9f17c7f37007275",
+  "source_sha256": "b1fbb9167331ba760c344f8b1333ea4bfd9868ed110afaa401a2cc9111364c35",
+  "npz_sha256": "71803080db23a52c10d9696fa3023303d175bd883ac0a471574fe8ee347f47b1",
+  "summary": {
+    "name": "pure_P2_DNA",
+    "point": "P2",
+    "model": "DNA",
+    "reason": "reconstructed pure-mode endpoint",
+    "seed": 2026102212,
+    "dimension": 1728,
+    "newton_residual": 9.604356962542292e-15,
+    "newton_iterations": 1,
+    "refinement_relative_change": 4.743376562379066e-13,
+    "leading_real": -0.09999999999999201,
+    "leading_imag": 0.0,
+    "n_RHP": 0,
+    "n_near_imaginary_axis": 0,
+    "sparse_dense_leading_error": 7.965850201685498e-15,
+    "sparse_eigenpair_residual": 4.9177547573962086e-20,
+    "recovery_final_over_initial": 6.530881267025032e-10,
+    "recovery_max_over_initial": 1.0,
+    "unperturbed_scaled_drift": 3.001361550794466e-16,
+    "elapsed_seconds": 6.617827899999611
+  }
+}
