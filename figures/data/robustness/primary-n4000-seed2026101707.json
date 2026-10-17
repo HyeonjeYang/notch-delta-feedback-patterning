@@ -1,0 +1,13 @@
+{
+  "kernel_sha256": "85c0fd308df7c019f6be0bde88f5014fcc374b7de3b54f2043e1b6cba0d67729",
+  "parameter_array_sha256": "831c134ad71c0a46675910020cff2ed09e738aa5b9d052501ae6c69aac5e0b9b",
+  "kernel_hash_format": "path-delimited UTF-8 text with universal newlines",
+  "scenario": "primary",
+  "n": 4000,
+  "seed": 2026101707,
+  "bounds": [
+    0.1,
+    10.0
+  ],
+  "csv_sha256": "cf2a6c564768ba3bd87a5701130eee355e81bffb54412900d2dca806eefe039a"
+}

@@ -1,0 +1,20 @@
+{
+  "n_new_points": 115000,
+  "n_primary": 40000,
+  "n_wider": 20000,
+  "n_unstable_all_designs": 41307,
+  "n_gain_mismatch_all_designs": 392,
+  "n_DNA_missed": 0,
+  "n_DN_missed": 0,
+  "n_DNA_not_faster": 0,
+  "n_DN_not_faster": 0,
+  "n_other_mode_dominant": 0,
+  "n_other_unstable_K_stable": 0,
+  "n_gain_mismatch_not_two_rhp": 0,
+  "n_near_marginal_full": 1,
+  "n_high_precision_distinct_cases": 11,
+  "high_precision_signs_all_agree": true,
+  "primary_pooled_DNA_ratio_median": 5.411923009348234,
+  "wider_pooled_DNA_ratio_median": 3.2484625135370644,
+  "n_uniform_only_full": 0
+}

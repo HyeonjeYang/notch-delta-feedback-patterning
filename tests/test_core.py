@@ -206,4 +206,20 @@ def test_global_sample_regenerates_from_seed():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     stored = pd.read_csv(DATA_DIR / "global_sample_parameters.csv", float_precision="round_trip")
-    assert np.array_equal(module.latin_hypercube_parameters(), stored[PARAM_NAMES].values)
+    # log/exp transformations can differ in their last bits across platforms.
+    np.testing.assert_allclose(module.latin_hypercube_parameters(), stored[PARAM_NAMES].values,
+                               rtol=5e-14, atol=0)
+
+
+def test_mode_search_regenerates_both_boxes_from_continuous_stream():
+    from scripts.mode_dominance_search import N_PER_BOX, SEED, draw
+    stored = pd.read_csv(DATA_DIR / "mode_search_samples.csv.gz", float_precision="round_trip")
+    assert len(stored) == 2 * N_PER_BOX
+    rng = np.random.Generator(np.random.PCG64(SEED))
+    generated = []
+    for widening in (1.0, 10.0):
+        for sample_id in range(N_PER_BOX):
+            p = draw(rng, widening)
+            generated.append([widening, sample_id, *[getattr(p, k) for k in PARAM_NAMES]])
+    np.testing.assert_allclose(stored[["box_widening", "sample_id", *PARAM_NAMES]].values,
+                               generated, rtol=5e-14, atol=0)

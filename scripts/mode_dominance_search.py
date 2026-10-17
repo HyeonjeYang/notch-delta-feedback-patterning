@@ -53,18 +53,23 @@ def draw(rng: np.random.Generator, widen: float) -> NotchDeltaParams:
 
 
 def main() -> None:
-    rng = np.random.default_rng(SEED)
+    # One continuous PCG64 stream: base box first, widened box second.
+    rng = np.random.Generator(np.random.PCG64(SEED))
     nonuniform = UNIQUE_MU < UNIFORM_MU - 1e-9
     i_K = int(np.argmin(UNIQUE_MU))
-    rows = []
+    rows, samples = [], []
     for widen in (1.0, 10.0):
         unstable = other_dominant = other_only = oscillatory_K = 0
-        for _ in tqdm(range(N_PER_BOX), desc=f"box x{widen:g}"):
+        for sample_id in tqdm(range(N_PER_BOX), desc=f"box x{widen:g}"):
             p = draw(rng, widen)
             fp = homogeneous_fixed_point(p)
             ev = np.linalg.eigvals(np.stack([jacobian_block(mu, fp, p) for mu in UNIQUE_MU]))
             lead = ev.real.max(axis=1)
             k = int(np.argmax(np.where(nonuniform, lead, -np.inf)))
+            samples.append({"box_widening": widen, "sample_id": sample_id,
+                            **{name: getattr(p, name) for name in PARAM_NAMES},
+                            "lambda_pattern": float(lead[k]), "best_mu": float(UNIQUE_MU[k]),
+                            "lambda_K": float(lead[i_K]), "uniform_re": float(lead[-1])})
             if lead[k] > 0:
                 unstable += 1
                 other_dominant += int(k != i_K and lead[k] > lead[i_K] + 1e-12)
@@ -75,7 +80,17 @@ def main() -> None:
                      "n_other_mode_dominant": other_dominant, "n_other_mode_unstable_K_stable": other_only,
                      "n_K_leading_oscillatory": oscillatory_K})
         print(rows[-1])
+    sample_frame = pd.DataFrame(samples)
+    snapshot = DATA_DIR / "mode_search_samples.csv.gz"
+    if snapshot.exists():
+        frozen = pd.read_csv(snapshot, float_precision="round_trip")
+        cols = ["box_widening", "sample_id", *PARAM_NAMES]
+        if frozen.shape[0] != sample_frame.shape[0] or not np.allclose(
+                frozen[cols].values, sample_frame[cols].values, rtol=5e-14, atol=0):
+            raise RuntimeError("mode-search inputs differ from the frozen parameter snapshot")
     pd.DataFrame(rows).to_csv(DATA_DIR / "mode_dominance_search.csv", index=False)
+    # Freeze the actual inputs, rather than relying only on seed + summary.
+    sample_frame.to_csv(snapshot, index=False, compression={"method": "gzip", "mtime": 0})
 
 
 if __name__ == "__main__":

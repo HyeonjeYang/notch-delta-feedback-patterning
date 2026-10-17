@@ -1,0 +1,94 @@
+{
+  "protocol_id": "independent-lhs-robustness-v1",
+  "primary": {
+    "seeds": [
+      2026101701,
+      2026101702,
+      2026101703,
+      2026101704,
+      2026101705,
+      2026101706,
+      2026101707,
+      2026101708,
+      2026101709,
+      2026101710
+    ],
+    "n": 4000,
+    "bounds": [
+      0.1,
+      10
+    ]
+  },
+  "size_checks": {
+    "seeds": [
+      2026101701,
+      2026101702,
+      2026101703,
+      2026101704,
+      2026101705
+    ],
+    "n": [
+      1000,
+      2000,
+      8000
+    ],
+    "bounds": [
+      0.1,
+      10
+    ]
+  },
+  "wider_box": {
+    "seeds": [
+      2026101801,
+      2026101802,
+      2026101803,
+      2026101804,
+      2026101805
+    ],
+    "n": 4000,
+    "bounds": [
+      0.01,
+      100
+    ]
+  },
+  "sampler": {
+    "class": "scipy.stats.qmc.LatinHypercube",
+    "legacy_seed_api": true,
+    "scramble": true,
+    "strength": 1,
+    "optimization": null,
+    "rate_measure": "log-uniform",
+    "Hill_measure": "uniform [1,6]"
+  },
+  "parameter_order": [
+    "lam_D",
+    "lam_N",
+    "lam_ASC",
+    "Kd",
+    "n_d",
+    "n_ASC",
+    "d_D",
+    "d_N",
+    "d_A",
+    "d_ASC",
+    "f_D",
+    "f_N",
+    "k_cis"
+  ],
+  "classification": {
+    "main": "strict real part > 0",
+    "marginal_band": 1e-08,
+    "sensitivity_thresholds": [
+      0,
+      1e-10,
+      1e-08,
+      1e-06
+    ],
+    "mode_dominance_excess_tolerance": 1e-09
+  },
+  "nyquist": "all static-gain mismatches plus 16 closest-to-unit-gain points per replicate; grid 4000, refine on disagreement",
+  "intervals": "approximate 95% Student-t intervals across independent replicate fractions, not iid-binomial intervals across LHS points",
+  "size_dependence": "same first five seeds reused across sizes; separately generated non-nested designs; do not pool sizes for inference",
+  "counterexamples": "retain all; validate up to five per category selected by largest signed margin, then sample ID, with 80-digit arithmetic",
+  "total_new_points": 115000
+}
